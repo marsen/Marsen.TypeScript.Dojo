@@ -6,12 +6,12 @@ export default class beforeShowDay {
             return [false];
         }
         
-        var day = date.getDay();
+        const day = date.getDay();
         if(day==0){
             return [false];
         }
 
-        var now = this.GetToday();
+        const now = this.GetToday();
         if(now.getDay()==6){
             return this.RestDays(date,now,3);
         }
@@ -34,19 +34,19 @@ export default class beforeShowDay {
 
     private static RestDays(date:Date,now:Date,Days:number){
         const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-        var twoDay = new Date(now.toDateString()).valueOf() + Days * _MS_PER_DAY;
+        const twoDay = new Date(now.toDateString()).valueOf() + Days * _MS_PER_DAY;
         return [date.valueOf()-twoDay>=0];
     }
 
     private static GetToday():Date{
-        var ms = Date.now();
+        const ms = Date.now();
         return new Date(ms);
     }
 
     private static FormateDate(date: Date):string{                
-        let year = date.getFullYear();
-        let month = date.getMonth()+1;
-        let day = date.getDay();
+        const year = date.getFullYear();
+        const month = date.getMonth()+1;
+        const day = date.getDay();
         return year + '-' +  month + '-' + day;
     }
 }
