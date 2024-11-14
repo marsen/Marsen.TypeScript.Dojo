@@ -1,0 +1,47 @@
+# Node modules
+/node_modules/
+
+# TypeScript compiled files
+/dist/
+/build/
+/lib/
+
+/*.tsbuildinfo
+
+# Log files
+*.log
+
+# Dependency directories
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VSCode settings
+.vscode/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE files
+.idea/
+
+# Coverage directories
+/coverage/
+
+# Test output
+/nyc_output/
+
+# Tye (for .NET Core) configuration
+.tye/
+
+# Parcel cache
+.cache/
+
+# Jest and other test runner's artifacts
+test-results/
