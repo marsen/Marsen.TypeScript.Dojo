@@ -19,7 +19,7 @@
     "chai": "^4.2.0",
     "eslint": "^9.14.0",
     "globals": "^15.12.0",
-    "mocha": "^7.2.0",
+    "mocha": "^10.8.2",
     "nyc": "^15.1.0",
     "sonarqube-scanner": "^2.7.0",
     "ts-node": "^8.10.2",
