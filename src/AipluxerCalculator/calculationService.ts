@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 import { type Categories } from './calculationController'
-import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, type PLAN_TYPES, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail } from '../interfaces/services/calculationService'
+import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, type PLAN_TYPES, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail } from './interface/calculationService'
 
 @injectable()
 export class CalculationService implements ICalculationService {
