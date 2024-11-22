@@ -1,5 +1,4 @@
 import Tennis from '../../src/Kata/Tennis';
-import { expect } from 'chai';
 
 let tennis:Tennis;
 
@@ -157,7 +156,7 @@ function GivenServerScore(times:number) {
 }
 
 function ScoreShouldBe(expected:string) {
-  expect(expected).equal(tennis.Score());
+  expect(expected).toBe(tennis.Score());
 }
 
 function GivenReceiverScore(times:number) {
