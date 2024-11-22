@@ -1,0 +1,37 @@
+import type { Request, Response } from 'express'
+import { StatusCodes } from 'http-status-codes'
+import { inject, injectable } from 'inversify'
+import { z } from 'zod'
+import { TYPES } from './types'
+import { ICalculationServiceDomain } from './interface/calculationServiceDomain'
+import { PLAN_TYPES } from './interface/calculationService'
+
+export const categories = z.array(
+  z.object({
+    code: z.string().max(2, '輸入的類別代碼不合法').describe('大類'),
+    items: z.array(z.string().max(20, '輸入商品/服務項目不合法')).describe('選擇商品/服務項目清單')
+  })
+).min(1, '至少包含一項類別').describe('所選的類別清單')
+export type Categories = z.infer<typeof categories>
+
+export const getCalculatePriceRequestBodySchema = z.object({
+  plan: z.enum(PLAN_TYPES).describe('方案類型'),
+  includedFee: z.boolean().describe('是否包含手續費'),
+  categories
+})
+export type TGetCalculatePriceRequestBodySchema = z.infer<typeof getCalculatePriceRequestBodySchema>
+
+@injectable()
+export class CalculationController {
+  constructor (
+    @inject(TYPES.CalculationServiceDomain) private readonly calculateServiceDomain: ICalculationServiceDomain
+  ) {}
+
+  getCalculateAllPriceDetail = async (req: Request, res: Response): Promise<void> => {
+    const { plan, includedFee, categories } = getCalculatePriceRequestBodySchema.parse(req.body)
+
+    const result = await this.calculateServiceDomain.handleAllPriceDetail(plan, categories, includedFee)
+
+    res.status(StatusCodes.OK).json(result)
+  }
+}
