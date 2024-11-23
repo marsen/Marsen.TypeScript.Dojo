@@ -12,6 +12,8 @@ describe('CalculationServiceDomain', () => {
   
   describe('handleAllPriceDetail', () => {
 
+
+    const mockCategoryItems = (code:string,Qty:number)=> [{ code, items: Array.from({ length: Qty }, (_, i) => `01${(i + 1).toString().padStart(2, '0')}`) }]
     it('一般方案，無超項(01類 2 項)', async () => {
     //arrange
     const expected = {
@@ -31,7 +33,7 @@ describe('CalculationServiceDomain', () => {
     }
 
     //act
-    const result = await target.handleAllPriceDetail('basic', [{ code: '01', items: ['0101', '0102'] }], false)
+    const result = await target.handleAllPriceDetail('basic', mockCategoryItems('01',2), false)
     //assert
     expect(result).toEqual(expected)
     })
@@ -54,10 +56,7 @@ describe('CalculationServiceDomain', () => {
       }
   
       //act
-      const result = await target.handleAllPriceDetail('basic', [{ code: '01', items: [
-        '0101', '0102','0103','0104','0105','0106','0107','0108','0109','0110',
-        '0111','0112','0113','0114','0115','0116','0117','0118','0119','0120','0121'
-      ] }], false)
+      const result = await target.handleAllPriceDetail('basic', mockCategoryItems('01',21), false)
       //assert
       expect(result).toEqual(expected)
       })
