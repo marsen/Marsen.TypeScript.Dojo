@@ -1,17 +1,8 @@
-import 'reflect-metadata'
-import { CalculationServiceDomain } from '../../src/AipluxerCalculator/calculationServiceDomain'
-import { CalculationService } from '../../src/AipluxerCalculator/calculationService'
+# 一步一步寫測試
 
-describe('CalculationServiceDomain', () => {
-  let target: CalculationServiceDomain
+## 第一個測試
 
-  beforeEach(() => {
-    const service = new CalculationService()
-    target = new CalculationServiceDomain(service)
-  })
-  
-  describe('handleAllPriceDetail', () => {
-
+```typescript
     it('一般方案，無超項(01類 2 項)', async () => {
     //arrange
     const expected = {
@@ -35,5 +26,4 @@ describe('CalculationServiceDomain', () => {
     //assert
     expect(result).toEqual(expected)
     })
-  })
-})
+```
