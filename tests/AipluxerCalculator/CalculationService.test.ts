@@ -38,18 +38,18 @@ describe('CalculationServiceDomain', () => {
     //assert
     expect(result).toEqual(expected)
     })
-    it('一般方案，有超項(01類 21 項)', async () => {
+    it('一般方案，有超項(01類 23 項，超 3 項', async () => {
       //arrange
       const expected = {
         planFee: 4600,
-        excessFee: 200,
-        subtotal: 4800,
-        total: 4800,
+        excessFee: 600,
+        subtotal: 5200,
+        total: 5200,
         detail: [
           {
             code: '01',
-            codeQty: 21,
-            excessQty: 1,
+            codeQty: 23,
+            excessQty: 3,
             excessFee: 200,
             planFee: 4600
           }
@@ -57,22 +57,22 @@ describe('CalculationServiceDomain', () => {
       }
   
       //act
-      const result = await target.handleAllPriceDetail('basic', mockCategoryItems('01',21), false)
+      const result = await target.handleAllPriceDetail('basic', mockCategoryItems('01',23), false)
       //assert
       expect(result).toEqual(expected)
       })
-      it('一般方案，有超項(3519類 6 項)', async () => {
+    it('一般方案，有超項(3519類 7 項，超 2 項)', async () => {
         //arrange
         const expected = {
           planFee: 4600,
-          excessFee: 500,
-          subtotal: 5100,
-          total: 5100,
+          excessFee: 1000,
+          subtotal: 5600,
+          total: 5600,
           detail: [
             {
               code: '35',
-              codeQty: 6,
-              excessQty: 1,
+              codeQty: 7,
+              excessQty: 2,
               excessFee: 500,
               planFee: 4600
             }
@@ -80,9 +80,9 @@ describe('CalculationServiceDomain', () => {
         }
     
         //act
-        const result = await target.handleAllPriceDetail('basic', mockCategoryItems('3519',6), false)
+        const result = await target.handleAllPriceDetail('basic', mockCategoryItems('3519',7), false)
         //assert
         expect(result).toEqual(expected)
-        })
+    })
   })
 })
