@@ -35,5 +35,31 @@ describe('CalculationServiceDomain', () => {
     //assert
     expect(result).toEqual(expected)
     })
+    it('一般方案，有超項(01類 21 項)', async () => {
+      //arrange
+      const expected = {
+        planFee: 4600,
+        excessFee: 200,
+        subtotal: 4800,
+        total: 4800,
+        detail: [
+          {
+            code: '01',
+            codeQty: 21,
+            excessQty: 1,
+            excessFee: 200,
+            planFee: 4600
+          }
+        ] 
+      }
+  
+      //act
+      const result = await target.handleAllPriceDetail('basic', [{ code: '01', items: [
+        '0101', '0102','0103','0104','0105','0106','0107','0108','0109','0110',
+        '0111','0112','0113','0114','0115','0116','0117','0118','0119','0120','0121'
+      ] }], false)
+      //assert
+      expect(result).toEqual(expected)
+      })
   })
 })
