@@ -1,12 +1,5 @@
 import { Category } from "./calculationDomain"
 
-//todo: 需要 as const 嗎？
-/**
- * 政府規費 2400/類
- * 此為政府收取的標準處理費用。
- */
-export const GOVERNMENT_FEE = 2400
-
 /**
  * 平台服務費 2200/類
  * 此為基本方案平台服務費用。
