@@ -100,7 +100,7 @@
 - [ ] //todo: bad name handleAllPriceDetail 意義不明
 - [ ] //todo: bad name GetCalculatePriceResponseBody request response 應該是 Controller 的事情
 - [x] //todo: bad name categories 複數的名詞應該是陣列/集合/清單
-- [ ] //todo: 型別的提供應該是 Controller 的事情嗎 ?
+- [x] //todo: 型別的提供應該是 Controller 的事情嗎 ?
 - [x] //todo: CalculationController，沒有必要的 export
 - [ ] //todo: 需要 as const 嗎？
 - [ ] //todd: replace enum with literal is better??
