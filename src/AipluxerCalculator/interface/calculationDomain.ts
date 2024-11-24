@@ -1,6 +1,7 @@
 import { PlanType } from "./calculationService"
 
 /** 類別細項(前端需要的資料格式) */
+//todo: 不必要的 export
 export interface CategoriesPriceSummary {
   /** 大類 */
   code: string

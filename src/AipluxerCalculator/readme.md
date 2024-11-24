@@ -104,3 +104,4 @@
 - [x] //todo: CalculationController，沒有必要的 export
 - [ ] //todo: 需要 as const 嗎？
 - [ ] //todd: replace enum with literal is better??
+- [ ] //todo: 不必要的 export，CalculationDomain
