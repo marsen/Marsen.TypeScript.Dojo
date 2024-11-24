@@ -112,14 +112,6 @@ export interface ItemsDetail {
 export interface ICalculationService {
 
   /**
-   * 計算手續費
-   *
-   * @param TotalPrice - 總金額
-   * @returns 包含手續費的總金額
-   */
-  calculateTotalPriceWithFee: (excessTotalFee: number) => number
-
-  /**
    * 計算各類別的費用細節
    *
    * @param planType - 服務類別(一般/安心方案)

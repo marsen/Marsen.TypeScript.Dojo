@@ -16,7 +16,7 @@ export class CalculationService implements ICalculationService {
     return { name, quantity, unitPrice, totalPrice }
   }
 
-  public calculateTotalPriceWithFee (TotalPrice: number): number {
+  private calculateTotalPriceWithFee (TotalPrice: number): number {
     return ((TotalPrice * 1000) + (TotalPrice * FEE_RATE)) / 1000
   }
 
