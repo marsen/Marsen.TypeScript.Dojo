@@ -34,7 +34,7 @@ export const ADDITIONAL_SERVICE_FEE_35_3519 = 500
 /**
  * 服務類別 (一般方案/安心方案)
  */
-export const PLAN_TYPES = ['basic', 'advanced']
+export const PLAN_TYPES = ['basic', 'advanced'] as const
 export type PlanType = typeof PLAN_TYPES[number]
 
 /**
