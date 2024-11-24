@@ -103,3 +103,4 @@
 - [ ] //todo: 型別的提供應該是 Controller 的事情嗎 ?
 - [x] //todo: CalculationController，沒有必要的 export
 - [ ] //todo: 需要 as const 嗎？
+- [ ] //todd: replace enum with literal is better??
