@@ -125,6 +125,27 @@ describe('CalculationServiceDomain', () => {
         //assert
         expect(result).toEqual(expected)
       })
+      it('有超項(3519類 7 項)', async () => {
+        //arrange
+        const expected = {
+          planFee: 10000,
+          excessFee: 1000,
+          subtotal: 11000,
+          total: 11000,
+          detail: [{
+              code: '35',
+              codeQty: 7,
+              excessQty: 2,
+              excessFee: 500,
+              planFee: 10000
+            }]
+        }
+
+        //act
+        const result = await target.handleAllPriceDetail('advanced', mockCategoryItems('3519',7), false)
+        //assert
+        expect(result).toEqual(expected)
+      })
     })
   })
 })
