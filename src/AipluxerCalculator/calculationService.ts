@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 //todo: 參數轉回類別內部，在 interface 有 public 的意思
-import { type ICalculationService, type CategoriesPriceDetail, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, PlanType } from './interface/calculationService'
+import { type ICalculationService, type CategoriesPriceDetail, type ItemsDetail, type totalPriceDetail, PlanType, TProductName } from './interface/calculationService'
 import { Category } from './interface/calculationDomain'
 
 @injectable()
@@ -19,7 +19,7 @@ export class CalculationService implements ICalculationService {
    * @param totalPrice - 單位總金額
    * @returns 項目細節
    */
-  private createItemDetail (name: typeof PRODUCT_NAMES[number], quantity: number, unitPrice: number, totalPrice: number): ItemsDetail {
+  private createItemDetail (name: TProductName, quantity: number, unitPrice: number, totalPrice: number): ItemsDetail {
     return { name, quantity, unitPrice, totalPrice }
   }
 
@@ -56,11 +56,12 @@ export class CalculationService implements ICalculationService {
 
       //todo: 特別的邏輯，可能有壞味這
       const itemsDetail: ItemsDetail[] = [
-        this.createItemDetail(PRODUCT_NAMES[0], 1, this.governmentFee, this.governmentFee),
-        this.createItemDetail(PRODUCT_NAMES[1], planType === 'basic' ? 1 : 0, planType === 'basic' ? this.basic : 0, planType === 'basic' ? this.basic : 0),
-        this.createItemDetail(PRODUCT_NAMES[2], planType === 'advanced' ? 1 : 0, planType === 'advanced' ? this.advanced : 0, planType === 'advanced' ? this.advanced : 0),
-        this.createItemDetail(PRODUCT_NAMES[3], code >= '01' && code <= '34' ? excessQty : 0, code >= '01' && code <= '34' && excessQty !== 0 ? this.goodsFee : 0, code >= '01' && code <= '34' ? excessTotalFee : 0),
-        this.createItemDetail(PRODUCT_NAMES[4], code === '35' && items.some(item => item.startsWith('3519')) ? excessQty : 0, code === '35' && items.some(item => item.startsWith('3519')) && excessQty !== 0 ? this.specialServiceFee : 0, code === '35' && items.some(item => item.startsWith('3519')) ? excessTotalFee : 0)
+        //todo: hard code 是壞味道
+        this.createItemDetail('application_regulation_fee', 1, this.governmentFee, this.governmentFee),
+        this.createItemDetail('application_basic_service_fee', planType === 'basic' ? 1 : 0, planType === 'basic' ? this.basic : 0, planType === 'basic' ? this.basic : 0),
+        this.createItemDetail('application_advanced_service_fee', planType === 'advanced' ? 1 : 0, planType === 'advanced' ? this.advanced : 0, planType === 'advanced' ? this.advanced : 0),
+        this.createItemDetail('excess_item_fee', code >= '01' && code <= '34' ? excessQty : 0, code >= '01' && code <= '34' && excessQty !== 0 ? this.goodsFee : 0, code >= '01' && code <= '34' ? excessTotalFee : 0),
+        this.createItemDetail('special_excess_item_fee', code === '35' && items.some(item => item.startsWith('3519')) ? excessQty : 0, code === '35' && items.some(item => item.startsWith('3519')) && excessQty !== 0 ? this.specialServiceFee : 0, code === '35' && items.some(item => item.startsWith('3519')) ? excessTotalFee : 0)
       ]
       return { code, codeQty, excessTotalFee, fee: Math.ceil(fee), subTotal: Math.ceil(subTotal), items: itemsDetail, excessFee, excessQty }
     })
