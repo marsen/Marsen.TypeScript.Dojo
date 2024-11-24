@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 //todo: 參數轉回類別內部，在 interface 有 public 的意思
-import { type ICalculationService, type CategoriesPriceDetail, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, PlanType } from './interface/calculationService'
+import { type ICalculationService, type CategoriesPriceDetail, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, PlanType } from './interface/calculationService'
 import { Category } from './interface/calculationDomain'
 
 @injectable()
@@ -9,7 +9,8 @@ export class CalculationService implements ICalculationService {
   private readonly goodsFee = 200
   private readonly specialServiceFee = 500
   private readonly governmentFee = 2400 
-  private readonly advanced= 7600
+  private readonly advanced = 7600
+  private readonly basic = 2200
   /**
    * 建立單個項目細節
    * @param name - 項目名稱
@@ -27,7 +28,7 @@ export class CalculationService implements ICalculationService {
   }
 
   async calculateCategoriesFeeDetail (planType: PlanType, categories: Category[], includedFee: boolean): Promise<totalPriceDetail> {
-    const servicesTypeFee = planType === 'advanced' ? this.advanced: BASIC_FEE
+    const servicesTypeFee = planType === 'advanced' ? this.advanced: this.basic
     const planFee = this.governmentFee + servicesTypeFee
     // 計算個類別明細
     const categoriesPriceDetail: CategoriesPriceDetail[] = categories.map(category => {
@@ -56,7 +57,7 @@ export class CalculationService implements ICalculationService {
       //todo: 特別的邏輯，可能有壞味這
       const itemsDetail: ItemsDetail[] = [
         this.createItemDetail(PRODUCT_NAMES[0], 1, this.governmentFee, this.governmentFee),
-        this.createItemDetail(PRODUCT_NAMES[1], planType === 'basic' ? 1 : 0, planType === 'basic' ? BASIC_FEE : 0, planType === 'basic' ? BASIC_FEE : 0),
+        this.createItemDetail(PRODUCT_NAMES[1], planType === 'basic' ? 1 : 0, planType === 'basic' ? this.basic : 0, planType === 'basic' ? this.basic : 0),
         this.createItemDetail(PRODUCT_NAMES[2], planType === 'advanced' ? 1 : 0, planType === 'advanced' ? this.advanced : 0, planType === 'advanced' ? this.advanced : 0),
         this.createItemDetail(PRODUCT_NAMES[3], code >= '01' && code <= '34' ? excessQty : 0, code >= '01' && code <= '34' && excessQty !== 0 ? this.goodsFee : 0, code >= '01' && code <= '34' ? excessTotalFee : 0),
         this.createItemDetail(PRODUCT_NAMES[4], code === '35' && items.some(item => item.startsWith('3519')) ? excessQty : 0, code === '35' && items.some(item => item.startsWith('3519')) && excessQty !== 0 ? this.specialServiceFee : 0, code === '35' && items.some(item => item.startsWith('3519')) ? excessTotalFee : 0)
