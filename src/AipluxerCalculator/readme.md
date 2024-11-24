@@ -93,4 +93,10 @@
 
 ### Q. 拙劣命名
 
-#### A. 暫時先列 todo
+#### A. 暫時先列 todo，再修正
+  
+  //todo: bad name CalculationServiceDomain -> CalculationDomain
+  //todo: bad Type PLAN_TYPES[number]
+  //todo: bad name handleAllPriceDetail 意義不明
+  //todo: bad name GetCalculatePriceResponseBody request response 應該是 Controller 的事情
+  //todo: bad name categories 複數的名詞應該是陣列/集合/清單
