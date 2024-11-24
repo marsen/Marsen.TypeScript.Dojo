@@ -6,10 +6,6 @@ import { Category } from "./calculationDomain"
 export const PLAN_TYPES = ['basic', 'advanced'] as const
 export type PlanType = typeof PLAN_TYPES[number]
 
-/**
- *  手續費 (3% 手續費會等於30。 單位：千位)
- */
-export const FEE_RATE = 30
 
 /**
  * 總計算細節
