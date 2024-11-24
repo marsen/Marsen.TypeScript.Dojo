@@ -1,4 +1,3 @@
-import { Categories } from "../calculationController"
 import { PLAN_TYPES } from "./calculationService"
 
 /** 類別細項(前端需要的資料格式) */
@@ -37,5 +36,10 @@ export interface ICalculationDomain {
  * @param includedFee - 是否計算手續費
  * @returns 各類別的費用細節
  */
-  handleAllPriceDetail: (planType: typeof PLAN_TYPES[number], categories: Categories, includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
+  handleAllPriceDetail: (planType: typeof PLAN_TYPES[number], categories: Category[], includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
+}
+//todo: 暫時將 type 移至此處
+export type Category = {
+  code: string;
+  items: string[];
 }

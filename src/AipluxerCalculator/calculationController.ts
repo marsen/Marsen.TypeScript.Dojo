@@ -12,8 +12,6 @@ const categories = z.array(
     items: z.array(z.string().max(20, '輸入商品/服務項目不合法')).describe('選擇商品/服務項目清單')
   })
 ).min(1, '至少包含一項類別').describe('所選的類別清單')
-//todo: 型別的提供應該是 Controller 的事情嗎 ?
-export type Categories = z.infer<typeof categories>
 
 //todo: 可收斂的常數
 const getCalculatePriceRequestBodySchema = z.object({

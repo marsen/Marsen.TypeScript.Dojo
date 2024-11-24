@@ -1,7 +1,6 @@
 import { TYPES } from './types'
 import { inject, injectable } from 'inversify'
-import { type Categories } from './calculationController'
-import { type ICalculationDomain, type GetCalculatePriceResponseBody } from './interface/calculationDomain'
+import { type ICalculationDomain, type GetCalculatePriceResponseBody, Category } from './interface/calculationDomain'
 import { type ICalculationService, type PLAN_TYPES } from './interface/calculationService'
 
 @injectable()
@@ -14,7 +13,7 @@ export class CalculationDomain implements ICalculationDomain {
   //todo: bad name handleAllPriceDetail 意義不明
   //todo: bad name GetCalculatePriceResponseBody request response 應該是 Controller 的事情
   //todo: bad name categories 複數的名詞應該是陣列/集合/清單
-  async handleAllPriceDetail (planType: typeof PLAN_TYPES[number], categories: Categories, includedFee: boolean): Promise<GetCalculatePriceResponseBody> {
+  async handleAllPriceDetail (planType: typeof PLAN_TYPES[number], categories: Category[], includedFee: boolean): Promise<GetCalculatePriceResponseBody> {
     const result = await this.calculateService.calculateCategoriesFeeDetail(planType, categories, includedFee)
     // 將資料處理成前端所需資料
     return {

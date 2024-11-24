@@ -1,4 +1,4 @@
-import { type Categories } from '../calculationController'
+import { Category } from "./calculationDomain"
 
 /**
  * 政府規費 2400/類
@@ -127,5 +127,5 @@ export interface ICalculationService {
    * @param includedFee - 是否計算手續費
    * @returns 各類別的費用細節
    */
-  calculateCategoriesFeeDetail: (planType: typeof PLAN_TYPES[number], categories: Categories, includedFee: boolean) => Promise<totalPriceDetail>
+  calculateCategoriesFeeDetail: (planType: typeof PLAN_TYPES[number], categories: Category[], includedFee: boolean) => Promise<totalPriceDetail>
 }
