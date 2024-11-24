@@ -1,4 +1,5 @@
 import { injectable } from 'inversify'
+//todo: 參數轉回類別內部，在 interface 有 public 的意思
 import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, PlanType } from './interface/calculationService'
 import { Category } from './interface/calculationDomain'
 

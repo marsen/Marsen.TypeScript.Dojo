@@ -105,3 +105,4 @@
 - [x] //todo: 需要 as const 嗎？
 - [ ] //todd: replace enum with literal is better??
 - [ ] //todo: 不必要的 export，CalculationDomain
+- [ ] //todo: 參數轉回類別內部，在 interface 有 public 的意思
