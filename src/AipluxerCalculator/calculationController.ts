@@ -6,19 +6,22 @@ import { TYPES } from './types'
 import { ICalculationDomain } from './interface/calculationDomain'
 import { PLAN_TYPES } from './interface/calculationService'
 
+//todo: CalculationController，沒有必要的 export
 export const categories = z.array(
   z.object({
     code: z.string().max(2, '輸入的類別代碼不合法').describe('大類'),
     items: z.array(z.string().max(20, '輸入商品/服務項目不合法')).describe('選擇商品/服務項目清單')
   })
 ).min(1, '至少包含一項類別').describe('所選的類別清單')
+//todo: 型別的提供應該是 Controller 的事情嗎 ?
 export type Categories = z.infer<typeof categories>
-
+//todo: CalculationController，沒有必要的 export
 export const getCalculatePriceRequestBodySchema = z.object({
   plan: z.enum(PLAN_TYPES).describe('方案類型'),
   includedFee: z.boolean().describe('是否包含手續費'),
   categories
 })
+//todo: 型別的提供應該是 Controller 的事情嗎 ?
 export type TGetCalculatePriceRequestBodySchema = z.infer<typeof getCalculatePriceRequestBodySchema>
 
 @injectable()
