@@ -7,12 +7,6 @@ import { Category } from "./calculationDomain"
 export const BASIC_FEE = 2200
 
 /**
- * 平台服務費 7600/類
- * 此為安心方案平台服務費用。
- */
-export const ADVANCED_FEE = 7600
-
-/**
  * 服務類別 (一般方案/安心方案)
  */
 export const PLAN_TYPES = ['basic', 'advanced'] as const
