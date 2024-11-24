@@ -20,18 +20,6 @@ export const BASIC_FEE = 2200
 export const ADVANCED_FEE = 7600
 
 /**
- * 01 到 34 類，超項所收取的服務費
- * 超過20項 每項 200 元
- */
-export const ADDITIONAL_SERVICE_FEE_01_TO_34 = 200
-
-/**
- * 35類的3519類別，超項所收取的服務費
- * 超過5項 每項 500 元
- */
-export const ADDITIONAL_SERVICE_FEE_35_3519 = 500
-
-/**
  * 服務類別 (一般方案/安心方案)
  */
 export const PLAN_TYPES = ['basic', 'advanced'] as const
