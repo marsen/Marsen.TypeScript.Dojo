@@ -1,12 +1,11 @@
 import { TYPES } from './types'
 import { inject, injectable } from 'inversify'
 import { type Categories } from './calculationController'
-import { type ICalculationServiceDomain, type GetCalculatePriceResponseBody } from './interface/calculationServiceDomain'
+import { type ICalculationDomain, type GetCalculatePriceResponseBody } from './interface/calculationDomain'
 import { type ICalculationService, type PLAN_TYPES } from './interface/calculationService'
 
 @injectable()
-//todo: bad name CalculationServiceDomain -> CalculationDomain
-export class CalculationServiceDomain implements ICalculationServiceDomain {
+export class CalculationDomain implements ICalculationDomain {
   constructor (    
     @inject(TYPES.CalculationService) private readonly calculateService: ICalculationService
   ) {}
