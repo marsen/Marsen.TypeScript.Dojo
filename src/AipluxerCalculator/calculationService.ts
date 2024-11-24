@@ -1,5 +1,5 @@
 import { injectable } from 'inversify'
-import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, type PLAN_TYPES, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail } from './interface/calculationService'
+import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, PlanType } from './interface/calculationService'
 import { Category } from './interface/calculationDomain'
 
 @injectable()
@@ -20,7 +20,7 @@ export class CalculationService implements ICalculationService {
     return ((TotalPrice * 1000) + (TotalPrice * FEE_RATE)) / 1000
   }
 
-  async calculateCategoriesFeeDetail (planType: typeof PLAN_TYPES[number], categories: Category[], includedFee: boolean): Promise<totalPriceDetail> {
+  async calculateCategoriesFeeDetail (planType: PlanType, categories: Category[], includedFee: boolean): Promise<totalPriceDetail> {
     const servicesTypeFee = planType === 'advanced' ? ADVANCED_FEE : BASIC_FEE
     const planFee = GOVERNMENT_FEE + servicesTypeFee
     // 計算個類別明細

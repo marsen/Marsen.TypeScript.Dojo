@@ -15,6 +15,7 @@ const categories = z.array(
 
 //todo: 可收斂的常數
 const getCalculatePriceRequestBodySchema = z.object({
+  //todd: replace enum with literal is better??
   plan: z.enum(PLAN_TYPES).describe('方案類型'),
   includedFee: z.boolean().describe('是否包含手續費'),
   categories

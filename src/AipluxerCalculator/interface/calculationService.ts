@@ -1,5 +1,6 @@
 import { Category } from "./calculationDomain"
 
+//todo: 需要 as const 嗎？
 /**
  * 政府規費 2400/類
  * 此為政府收取的標準處理費用。
@@ -34,6 +35,7 @@ export const ADDITIONAL_SERVICE_FEE_35_3519 = 500 as const
  * 服務類別 (一般方案/安心方案)
  */
 export const PLAN_TYPES = ['basic', 'advanced'] as const
+export type PlanType = typeof PLAN_TYPES[number]
 
 /**
  *  手續費 (3% 手續費會等於30。 單位：千位)
@@ -127,5 +129,5 @@ export interface ICalculationService {
    * @param includedFee - 是否計算手續費
    * @returns 各類別的費用細節
    */
-  calculateCategoriesFeeDetail: (planType: typeof PLAN_TYPES[number], categories: Category[], includedFee: boolean) => Promise<totalPriceDetail>
+  calculateCategoriesFeeDetail: (planType: PlanType, categories: Category[], includedFee: boolean) => Promise<totalPriceDetail>
 }
