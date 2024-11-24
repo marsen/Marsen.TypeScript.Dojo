@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import { CalculationServiceDomain } from '../../src/AipluxerCalculator/calculationServiceDomain'
 import { CalculationService } from '../../src/AipluxerCalculator/calculationService'
 
-describe('CalculationServiceDomain', () => {
+describe('CalculationDomain', () => {
   let target: CalculationServiceDomain
 
   beforeEach(() => {
