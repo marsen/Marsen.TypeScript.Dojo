@@ -39,7 +39,7 @@ export class CalculationService implements ICalculationService {
 
 
   private calculateTotalPriceWithFee (totalPrice: number,includedFee: boolean): number {
-    return includedFee ? ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000 : totalPrice
+    return Math.ceil(includedFee ? ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000 : totalPrice)
   }
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
@@ -88,7 +88,7 @@ export class CalculationService implements ICalculationService {
           unitPrice: isSpecial(items) && excessQty !== 0 ? this.specialServiceFee : 0, 
           totalPrice: isSpecial(items) ? excessTotalFee : 0 }
       ]
-      return { code, codeQty, excessTotalFee, fee: Math.ceil(fee), subTotal: Math.ceil(subTotal), items: itemsDetail, excessFee, excessQty }
+      return { code, codeQty, excessTotalFee, fee: fee, subTotal: Math.ceil(subTotal), items: itemsDetail, excessFee, excessQty }
 
       function isGoods(code:string): boolean {
         return code >= '01' && code <= '34'
