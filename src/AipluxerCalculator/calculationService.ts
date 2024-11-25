@@ -42,6 +42,7 @@ export class CalculationService implements ICalculationService {
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
     const servicesTypeFee = planType === 'advanced' ? this.advancedFee : this.basicFee
+    
     const planFee = this.governmentFee + servicesTypeFee
     // 計算個類別明細
     const categoriesPriceDetail = categories.map(category => {
@@ -51,7 +52,7 @@ export class CalculationService implements ICalculationService {
       let excessFee = 0
       let excessTotalFee = 0
 
-      if (code >= '01' && code <= '34') {
+      if (isGoods(code)) {
         excessQty = codeQty > 20 ? codeQty - 20 : 0
         excessFee = this.goodsFee
         excessTotalFee = excessQty * this.goodsFee
@@ -67,9 +68,9 @@ export class CalculationService implements ICalculationService {
       const subTotal = includedFee ? this.calculateTotalPriceWithFee(includedExcessFee) : includedExcessFee
       const fee = subTotal - includedExcessFee
 
-      const quantity3 = code >= '01' && code <= '34' ? excessQty : 0
-      const unitPrice3 = code >= '01' && code <= '34' && excessQty !== 0 ? this.goodsFee : 0
-      const totalPrice3 = code >= '01' && code <= '34' ? excessTotalFee : 0
+      const quantity3 = isGoods(code) ? excessQty : 0
+      const unitPrice3 = isGoods(code) && excessQty !== 0 ? this.goodsFee : 0
+      const totalPrice3 = isGoods(code) ? excessTotalFee : 0
       const itemsDetail = [
         { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
         { name: PRODUCT_NAMES[1], quantity: planType === 'basic' ? 1 : 0, unitPrice: planType === 'basic' ? this.basicFee : 0, totalPrice: planType === 'basic' ? this.basicFee : 0 },
@@ -81,6 +82,10 @@ export class CalculationService implements ICalculationService {
           totalPrice: code === '35' && items.some(item => item.startsWith('3519')) ? excessTotalFee : 0 }
       ]
       return { code, codeQty, excessTotalFee, fee: Math.ceil(fee), subTotal: Math.ceil(subTotal), items: itemsDetail, excessFee, excessQty }
+
+      function isGoods(code:string): boolean {
+        return code >= '01' && code <= '34'
+      }
     })
 
     const totalExcessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
