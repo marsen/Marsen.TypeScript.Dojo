@@ -85,7 +85,10 @@ export class CalculationService implements ICalculationService {
         { name: PRODUCT_NAMES[1], quantity: planType === 'basic' ? 1 : 0, unitPrice: planType === 'basic' ? this.basicFee : 0, totalPrice: planType === 'basic' ? this.basicFee : 0 },
         { name: PRODUCT_NAMES[2], quantity: planType === 'advanced' ? 1 : 0, unitPrice: planType === 'advanced' ? this.advancedFee : 0, totalPrice: planType === 'advanced' ? this.advancedFee : 0 },
         { name: PRODUCT_NAMES[3], quantity: quantity3, unitPrice: unitPrice3, totalPrice: totalPrice3 },
-        this.createItemDetail(PRODUCT_NAMES[4], code === '35' && items.some(item => item.startsWith('3519')) ? excessQty : 0, code === '35' && items.some(item => item.startsWith('3519')) && excessQty !== 0 ? this.specialServiceFee : 0, code === '35' && items.some(item => item.startsWith('3519')) ? excessTotalFee : 0)
+        this.createItemDetail(PRODUCT_NAMES[4], 
+          code === '35' && items.some(item => item.startsWith('3519')) ? excessQty : 0, 
+          code === '35' && items.some(item => item.startsWith('3519')) && excessQty !== 0 ? this.specialServiceFee : 0, 
+          code === '35' && items.some(item => item.startsWith('3519')) ? excessTotalFee : 0)
       ]
       return { code, codeQty, excessTotalFee, fee: Math.ceil(fee), subTotal: Math.ceil(subTotal), items: itemsDetail, excessFee, excessQty }
     })
