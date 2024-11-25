@@ -72,13 +72,13 @@ export class CalculationService implements ICalculationService {
       const itemsDetail = [
         { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
         { name: PRODUCT_NAMES[1], 
-          quantity: planType === 'basic' ? 1 : 0, 
-          unitPrice: planType === 'basic' ? this.planFeeDic[planType] : 0, 
-          totalPrice: planType === 'basic' ? this.planFeeDic[planType] : 0 },
+          quantity: isBasic(planType) ? 1 : 0, 
+          unitPrice: isBasic(planType)  ? this.planFeeDic[planType] : 0, 
+          totalPrice: isBasic(planType)  ? this.planFeeDic[planType] : 0 },
         { name: PRODUCT_NAMES[2], 
-          quantity: planType === 'advanced' ? 1 : 0, 
-          unitPrice: planType === 'advanced' ? this.planFeeDic[planType] : 0, 
-          totalPrice: planType === 'advanced' ? this.planFeeDic[planType] : 0 },
+          quantity: !isBasic(planType)  ? 1 : 0, 
+          unitPrice: !isBasic(planType)  ? this.planFeeDic[planType] : 0, 
+          totalPrice: !isBasic(planType)  ? this.planFeeDic[planType] : 0 },
         { name: PRODUCT_NAMES[3], 
           quantity: isGoods(code) ? excessQty : 0, 
           unitPrice: isGoods(code) && excessQty !== 0 ? this.goodsFee : 0, 
@@ -92,6 +92,9 @@ export class CalculationService implements ICalculationService {
 
       function isGoods(code:string): boolean {
         return code >= '01' && code <= '34'
+      }
+      function isBasic(planType: TPlanType): boolean {
+        return planType === 'basic'
       }
     })
 
