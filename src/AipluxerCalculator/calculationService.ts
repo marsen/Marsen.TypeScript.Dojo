@@ -41,8 +41,8 @@ export class CalculationService implements ICalculationService {
   private readonly rate = 30 
 
 
-  private calculateTotalPriceWithFee (totalPrice: number): number {
-    return ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000
+  private calculateTotalPriceWithFee (totalPrice: number,includedFee: boolean): number {
+    return includedFee ? ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000 : totalPrice
   }
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
@@ -69,7 +69,7 @@ export class CalculationService implements ICalculationService {
       }
 
       const includedExcessFee = excessTotalFee + planFee
-      const subTotal = includedFee ? this.calculateTotalPriceWithFee(includedExcessFee) : includedExcessFee
+      const subTotal = this.calculateTotalPriceWithFee(includedExcessFee,includedFee)
       const fee = subTotal - includedExcessFee
 
       const itemsDetail = [
@@ -91,7 +91,7 @@ export class CalculationService implements ICalculationService {
 
     const totalExcessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
     const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + planFee + category.excessTotalFee, 0)
-    const total = includedFee ? this.calculateTotalPriceWithFee(subtotal) : subtotal
+    const total = this.calculateTotalPriceWithFee(subtotal,includedFee)
 
     return { planFee, excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
 
