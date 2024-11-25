@@ -86,7 +86,7 @@ export class CalculationService implements ICalculationService {
 
     const totalExcessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
     const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + planFee + category.excessTotalFee, 0)
-    const total = includedFee ? Math.ceil(this.calculateTotalPriceWithFee(subtotal)) : subtotal
+    const total = includedFee ? this.calculateTotalPriceWithFee(subtotal) : subtotal
 
     return { planFee, excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
 
