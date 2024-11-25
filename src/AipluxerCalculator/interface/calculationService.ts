@@ -1,4 +1,4 @@
-import { GetCalculatePriceResponseBody } from './calculationServiceDomain'
+import { GetCalculatePriceResponseBody } from './calculationDomain'
 
 /**
  * 政府規費 2400/類

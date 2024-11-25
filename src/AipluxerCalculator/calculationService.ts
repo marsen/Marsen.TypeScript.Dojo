@@ -1,5 +1,5 @@
 import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, type PLAN_TYPES, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, TCategory } from './interface/calculationService'
-import { GetCalculatePriceResponseBody } from './interface/calculationServiceDomain'
+import { GetCalculatePriceResponseBody } from './interface/calculationDomain'
 
 export class CalculationService implements ICalculationService {
   /**
