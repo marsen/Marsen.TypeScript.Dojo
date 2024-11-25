@@ -46,58 +46,15 @@ export class CalculationService implements ICalculationService {
     return this.governmentFee + this.planFeeDic[planType]
   }
 
+
+  private isSpecial(items: string[]) {
+    return items.some(item => item.startsWith('3519'))
+  }
+
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
     
     // 計算個類別明細
-    const categoriesPriceDetail = categories.map(c => {
-      const codeQty = c.items.length
-      let excessQty = 0
-      let excessFee = 0
-      let excessTotalFee = 0
-
-      if (isGoods(c.code)) {
-        excessQty = Math.max(codeQty - 20, 0)
-        excessFee = this.goodsFee
-        excessTotalFee = excessQty * this.goodsFee
-      } 
-      if (isSpecial(c.items)) {
-        excessQty = Math.max((c.items.filter(i => i.startsWith('3519'))).length - 5 , 0)
-        excessFee = this.specialServiceFee
-        excessTotalFee = excessQty * this.specialServiceFee
-      }
-
-      const includedExcessFee = excessTotalFee + this.planFee(planType)
-      const subTotal = this.calculateTotalPriceWithFee(includedExcessFee,includedFee)
-      const fee = subTotal - includedExcessFee
-
-      const items = [
-        { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
-        { name: PRODUCT_NAMES[1], 
-          quantity: isBasic(planType) ? 1 : 0, 
-          unitPrice: isBasic(planType)  ? this.planFeeDic[planType] : 0, 
-          totalPrice: isBasic(planType)  ? this.planFeeDic[planType] : 0 },
-        { name: PRODUCT_NAMES[2], 
-          quantity: !isBasic(planType)  ? 1 : 0, 
-          unitPrice: !isBasic(planType)  ? this.planFeeDic[planType] : 0, 
-          totalPrice: !isBasic(planType)  ? this.planFeeDic[planType] : 0 },
-        { name: PRODUCT_NAMES[3], 
-          quantity: isGoods(c.code) ? excessQty : 0, 
-          unitPrice: isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0, 
-          totalPrice: isGoods(c.code) ? excessTotalFee : 0 },
-        { name: PRODUCT_NAMES[4], 
-          quantity: isSpecial(c.items) ? excessQty : 0, 
-          unitPrice: isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0, 
-          totalPrice: isSpecial(c.items) ? excessTotalFee : 0 }
-      ]
-      return { code:c.code, codeQty, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
-
-      function isGoods(code:string): boolean {
-        return code >= '01' && code <= '34'
-      }
-      function isBasic(planType: TPlanType): boolean {
-        return planType === 'basic'
-      }
-    })
+    const categoriesPriceDetail = this.getCategoriesPriceDetail(categories, planType, includedFee)
 
     const totalExcessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
     const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
@@ -107,11 +64,68 @@ export class CalculationService implements ICalculationService {
 
 
 
-    function isSpecial(items: string[]) {
-      return items.some(item => item.startsWith('3519'))
-    }
   }
   
+  private getCategoriesPriceDetail(categories: TCategory[],planType:TPlanType, includedFee: boolean) {
+    return categories.map(c => {
+      const codeQty = c.items.length
+      let excessQty = 0
+      let excessFee = 0
+      let excessTotalFee = 0
+
+      if (isGoods(c.code)) {
+        excessQty = Math.max(codeQty - 20, 0)
+        excessFee = this.goodsFee
+        excessTotalFee = excessQty * this.goodsFee
+      }
+      if (this.isSpecial(c.items)) {
+        excessQty = Math.max((c.items.filter(i => i.startsWith('3519'))).length - 5, 0)
+        excessFee = this.specialServiceFee
+        excessTotalFee = excessQty * this.specialServiceFee
+      }
+
+      const includedExcessFee = excessTotalFee + this.planFee(planType)
+      const subTotal = this.calculateTotalPriceWithFee(includedExcessFee, includedFee)
+      const fee = subTotal - includedExcessFee
+
+      const items = [
+        { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
+        {
+          name: PRODUCT_NAMES[1],
+          quantity: isBasic(planType) ? 1 : 0,
+          unitPrice: isBasic(planType) ? this.planFeeDic[planType] : 0,
+          totalPrice: isBasic(planType) ? this.planFeeDic[planType] : 0
+        },
+        {
+          name: PRODUCT_NAMES[2],
+          quantity: !isBasic(planType) ? 1 : 0,
+          unitPrice: !isBasic(planType) ? this.planFeeDic[planType] : 0,
+          totalPrice: !isBasic(planType) ? this.planFeeDic[planType] : 0
+        },
+        {
+          name: PRODUCT_NAMES[3],
+          quantity: isGoods(c.code) ? excessQty : 0,
+          unitPrice: isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0,
+          totalPrice: isGoods(c.code) ? excessTotalFee : 0
+        },
+        {
+          name: PRODUCT_NAMES[4],
+          quantity: this.isSpecial(c.items) ? excessQty : 0,
+          unitPrice: this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0,
+          totalPrice: this.isSpecial(c.items) ? excessTotalFee : 0
+        }
+      ]
+      return { code: c.code, codeQty, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
+
+      function isGoods(code: string): boolean {
+        return code >= '01' && code <= '34'
+      }
+      function isBasic(planType: TPlanType): boolean {
+        return planType === 'basic'
+      }
+    })
+  }
+
   async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePrice> {
     const result = await this.calculateCategoriesFeeDetail(planType, categories, includedFee)
     return {
