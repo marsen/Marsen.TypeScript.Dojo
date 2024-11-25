@@ -1,13 +1,13 @@
 import 'reflect-metadata'
-import { CalculationServiceDomain } from '../../src/AipluxerCalculator/calculationServiceDomain'
+import { CalculationDomain } from '../../src/AipluxerCalculator/calculationDomain'
 import { CalculationService } from '../../src/AipluxerCalculator/calculationService'
 
 describe('CalculationDomain', () => {
-  let target: CalculationServiceDomain
+  let target: CalculationDomain
 
   beforeEach(() => {
     const service = new CalculationService()
-    target = new CalculationServiceDomain(service)
+    target = new CalculationDomain(service)
   })
   
   describe('handleAllPriceDetail', () => {
