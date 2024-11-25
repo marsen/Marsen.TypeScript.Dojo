@@ -37,6 +37,12 @@ export class CalculationService implements ICalculationService {
    */
   private readonly rate = 30 
 
+  private readonly goodsCategories = 
+    [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+      '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
+      '31', '32', '33', '34'
+    ]
 
   private calculateTotalPriceWithFee (totalPrice: number,includedFee: boolean): number {
     return Math.ceil(includedFee ? ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000 : totalPrice)
@@ -52,7 +58,7 @@ export class CalculationService implements ICalculationService {
   }
 
   private isGoods(code: string): boolean {
-    return code >= '01' && code <= '34'
+    return this.goodsCategories.includes(code)
   }
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
