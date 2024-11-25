@@ -45,8 +45,8 @@ export class CalculationService implements ICalculationService {
     
     const planFee = this.governmentFee + servicesTypeFee
     // 計算個類別明細
-    const categoriesPriceDetail = categories.map(category => {
-      const { code, items } = category
+    const categoriesPriceDetail = categories.map(c => {
+      const { code, items } = c
       const codeQty = items.length
       let excessQty = 0
       let excessFee = 0
