@@ -1,4 +1,3 @@
-import { type Categories } from '../calculationController'
 import { GetCalculatePriceResponseBody } from './calculationServiceDomain'
 
 /**
@@ -110,6 +109,11 @@ export interface ItemsDetail {
   totalPrice: number
 }
 
+export type TCategory = {
+  code: string;
+  items: string[];
+}
+
 export interface ICalculationService {
 
   /**
@@ -120,7 +124,7 @@ export interface ICalculationService {
    * @param includedFee - 是否計算手續費
    * @returns 各類別的費用細節
    */
-  calculateCategoriesFeeDetail: (planType: typeof PLAN_TYPES[number], categories: Categories, includedFee: boolean) => Promise<totalPriceDetail>
+  calculateCategoriesFeeDetail: (planType: typeof PLAN_TYPES[number], categories: TCategory[], includedFee: boolean) => Promise<totalPriceDetail>
 
     /**
    * 計算各類別的費用細節
@@ -130,5 +134,5 @@ export interface ICalculationService {
    * @param includedFee - 是否計算手續費
    * @returns 各類別的費用細節
    */
-    calculateCategoriesFeeDetail2: (planType: typeof PLAN_TYPES[number], categories: Categories, includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
+    calculateCategoriesFeeDetail2: (planType: typeof PLAN_TYPES[number], categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
 }

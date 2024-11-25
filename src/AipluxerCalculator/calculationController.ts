@@ -12,9 +12,9 @@ export const categories = z.array(
     items: z.array(z.string().max(20, '輸入商品/服務項目不合法')).describe('選擇商品/服務項目清單')
   })
 ).min(1, '至少包含一項類別').describe('所選的類別清單')
-export type Categories = z.infer<typeof categories>
 
-export const getCalculatePriceRequestBodySchema = z.object({
+
+export const schema = z.object({
   plan: z.enum(PLAN_TYPES).describe('方案類型'),
   includedFee: z.boolean().describe('是否包含手續費'),
   categories
@@ -27,7 +27,7 @@ export class CalculationController {
   ) {}
 
   getCalculateAllPriceDetail = async (req: Request, res: Response): Promise<void> => {
-    const { plan, includedFee, categories } = getCalculatePriceRequestBodySchema.parse(req.body)
+    const { plan, includedFee, categories } = schema.parse(req.body)
 
     const result = await this.calculateServiceDomain.handleAllPriceDetail(plan, categories, includedFee)
 

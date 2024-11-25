@@ -1,9 +1,6 @@
-import { injectable } from 'inversify'
-import { type Categories } from './calculationController'
-import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, type PLAN_TYPES, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail } from './interface/calculationService'
+import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, type PLAN_TYPES, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, TCategory } from './interface/calculationService'
 import { GetCalculatePriceResponseBody } from './interface/calculationServiceDomain'
 
-@injectable()
 export class CalculationService implements ICalculationService {
   /**
    * 建立單個項目細節
@@ -21,7 +18,7 @@ export class CalculationService implements ICalculationService {
     return ((TotalPrice * 1000) + (TotalPrice * FEE_RATE)) / 1000
   }
 
-  async calculateCategoriesFeeDetail (planType: typeof PLAN_TYPES[number], categories: Categories, includedFee: boolean): Promise<totalPriceDetail> {
+  async calculateCategoriesFeeDetail (planType: typeof PLAN_TYPES[number], categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
     const servicesTypeFee = planType === 'advanced' ? ADVANCED_FEE : BASIC_FEE
     const planFee = GOVERNMENT_FEE + servicesTypeFee
     // 計算個類別明細
@@ -65,7 +62,7 @@ export class CalculationService implements ICalculationService {
     return { planFee, excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
   }
 
-  async calculateCategoriesFeeDetail2 (planType: typeof PLAN_TYPES[number], categories: Categories, includedFee: boolean): Promise<GetCalculatePriceResponseBody> {
+  async calculateCategoriesFeeDetail2 (planType: typeof PLAN_TYPES[number], categories: TCategory[], includedFee: boolean): Promise<GetCalculatePriceResponseBody> {
     const servicesTypeFee = planType === 'advanced' ? ADVANCED_FEE : BASIC_FEE
     const planFee = GOVERNMENT_FEE + servicesTypeFee
     // 計算個類別明細
