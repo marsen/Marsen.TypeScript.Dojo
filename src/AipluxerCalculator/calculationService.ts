@@ -78,7 +78,7 @@ export class CalculationService implements ICalculationService {
       const fee = subTotal - includedExcessFee
 
       const itemsDetail: ItemsDetail[] = [
-        this.createItemDetail(PRODUCT_NAMES[0], 1, this.governmentFee, this.governmentFee),
+        { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
         this.createItemDetail(PRODUCT_NAMES[1], planType === 'basic' ? 1 : 0, planType === 'basic' ? this.basicFee : 0, planType === 'basic' ? this.basicFee : 0),
         this.createItemDetail(PRODUCT_NAMES[2], planType === 'advanced' ? 1 : 0, planType === 'advanced' ? this.advancedFee : 0, planType === 'advanced' ? this.advancedFee : 0),
         this.createItemDetail(PRODUCT_NAMES[3], code >= '01' && code <= '34' ? excessQty : 0, code >= '01' && code <= '34' && excessQty !== 0 ? this.goodsFee : 0, code >= '01' && code <= '34' ? excessTotalFee : 0),
