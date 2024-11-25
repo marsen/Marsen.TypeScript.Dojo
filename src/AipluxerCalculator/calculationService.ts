@@ -73,9 +73,9 @@ export class CalculationService implements ICalculationService {
         { name: PRODUCT_NAMES[2], quantity: planType === 'advanced' ? 1 : 0, unitPrice: planType === 'advanced' ? this.advancedFee : 0, totalPrice: planType === 'advanced' ? this.advancedFee : 0 },
         { name: PRODUCT_NAMES[3], quantity: isGoods(code) ? excessQty : 0, unitPrice: isGoods(code) && excessQty !== 0 ? this.goodsFee : 0, totalPrice: isGoods(code) ? excessTotalFee : 0 },
         { name: PRODUCT_NAMES[4], 
-          quantity: items.some(item => item.startsWith('3519')) ? excessQty : 0, 
-          unitPrice: items.some(item => item.startsWith('3519')) && excessQty !== 0 ? this.specialServiceFee : 0, 
-          totalPrice: items.some(item => item.startsWith('3519')) ? excessTotalFee : 0 }
+          quantity: isSpecial(items) ? excessQty : 0, 
+          unitPrice: isSpecial(items) && excessQty !== 0 ? this.specialServiceFee : 0, 
+          totalPrice: isSpecial(items) ? excessTotalFee : 0 }
       ]
       return { code, codeQty, excessTotalFee, fee: Math.ceil(fee), subTotal: Math.ceil(subTotal), items: itemsDetail, excessFee, excessQty }
 
@@ -89,6 +89,10 @@ export class CalculationService implements ICalculationService {
     const total = includedFee ? Math.ceil(this.calculateTotalPriceWithFee(subtotal)) : subtotal
 
     return { planFee, excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
+
+    function isSpecial(items: string[]) {
+      return items.some(item => item.startsWith('3519'))
+    }
   }
 
   async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePrice> {
