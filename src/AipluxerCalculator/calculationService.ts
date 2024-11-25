@@ -36,8 +36,8 @@ export class CalculationService implements ICalculationService {
   private readonly rate = 30 
 
 
-  private calculateTotalPriceWithFee (TotalPrice: number): number {
-    return ((TotalPrice * 1000) + (TotalPrice * this.rate)) / 1000
+  private calculateTotalPriceWithFee (totalPrice: number): number {
+    return ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000
   }
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
