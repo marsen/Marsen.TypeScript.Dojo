@@ -19,6 +19,11 @@ export class CalculationService implements ICalculationService {
   */
   private readonly advancedFee = 7600 
 
+  private readonly planFeeDic = {
+    basic: this.basicFee,
+    advanced: this.advancedFee
+  }
+
   /**
   * 01 到 34 類，超項所收取的服務費
   * 超過20項 每項 200 元
@@ -41,7 +46,7 @@ export class CalculationService implements ICalculationService {
   }
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
-    const servicesTypeFee = planType === 'advanced' ? this.advancedFee : this.basicFee
+    const servicesTypeFee = this.planFeeDic[planType]
     
     const planFee = this.governmentFee + servicesTypeFee
     // 計算個類別明細
