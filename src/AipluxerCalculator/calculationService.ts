@@ -48,19 +48,18 @@ export class CalculationService implements ICalculationService {
     const planFee = this.governmentFee + servicesTypeFee
     // 計算個類別明細
     const categoriesPriceDetail = categories.map(c => {
-      const { code, items } = c
-      const codeQty = items.length
+      const codeQty = c.items.length
       let excessQty = 0
       let excessFee = 0
       let excessTotalFee = 0
 
-      if (isGoods(code)) {
+      if (isGoods(c.code)) {
         excessQty = Math.max(codeQty - 20, 0)
         excessFee = this.goodsFee
         excessTotalFee = excessQty * this.goodsFee
       } 
-      if (isSpecial(items)) {
-        excessQty = Math.max((items.filter(item => item.startsWith('3519'))).length - 5 , 0)
+      if (isSpecial(c.items)) {
+        excessQty = Math.max((c.items.filter(i => i.startsWith('3519'))).length - 5 , 0)
         excessFee = this.specialServiceFee
         excessTotalFee = excessQty * this.specialServiceFee
       }
@@ -69,7 +68,7 @@ export class CalculationService implements ICalculationService {
       const subTotal = this.calculateTotalPriceWithFee(includedExcessFee,includedFee)
       const fee = subTotal - includedExcessFee
 
-      const itemsDetail = [
+      const items = [
         { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
         { name: PRODUCT_NAMES[1], 
           quantity: isBasic(planType) ? 1 : 0, 
@@ -80,15 +79,15 @@ export class CalculationService implements ICalculationService {
           unitPrice: !isBasic(planType)  ? this.planFeeDic[planType] : 0, 
           totalPrice: !isBasic(planType)  ? this.planFeeDic[planType] : 0 },
         { name: PRODUCT_NAMES[3], 
-          quantity: isGoods(code) ? excessQty : 0, 
-          unitPrice: isGoods(code) && excessQty !== 0 ? this.goodsFee : 0, 
-          totalPrice: isGoods(code) ? excessTotalFee : 0 },
+          quantity: isGoods(c.code) ? excessQty : 0, 
+          unitPrice: isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0, 
+          totalPrice: isGoods(c.code) ? excessTotalFee : 0 },
         { name: PRODUCT_NAMES[4], 
-          quantity: isSpecial(items) ? excessQty : 0, 
-          unitPrice: isSpecial(items) && excessQty !== 0 ? this.specialServiceFee : 0, 
-          totalPrice: isSpecial(items) ? excessTotalFee : 0 }
+          quantity: isSpecial(c.items) ? excessQty : 0, 
+          unitPrice: isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0, 
+          totalPrice: isSpecial(c.items) ? excessTotalFee : 0 }
       ]
-      return { code, codeQty, excessTotalFee, fee: fee, subTotal: subTotal, items: itemsDetail, excessFee, excessQty }
+      return { code:c.code, codeQty, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
 
       function isGoods(code:string): boolean {
         return code >= '01' && code <= '34'
