@@ -15,7 +15,7 @@ export interface CategoriesPriceSummary {
 }
 
 /** 前端輸出response */
-export interface GetCalculatePriceResponseBody {
+export interface GetCalculatePrice {
   /** 方案費用(服務費 + 政府規費) */
   planFee: number
   /** 總計超項費用 */
@@ -36,5 +36,5 @@ export interface ICalculationServiceDomain {
  * @param includedFee - 是否計算手續費
  * @returns 各類別的費用細節
  */
-  handleAllPriceDetail: (planType: TPlanType, categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
+  handleAllPriceDetail: (planType: TPlanType, categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePrice>
 }

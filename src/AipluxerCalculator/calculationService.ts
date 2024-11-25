@@ -1,5 +1,5 @@
 import { type ICalculationService, type CategoriesPriceDetail, FEE_RATE, ADDITIONAL_SERVICE_FEE_01_TO_34, ADDITIONAL_SERVICE_FEE_35_3519, GOVERNMENT_FEE, ADVANCED_FEE, BASIC_FEE, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, TCategory, TPlanType } from './interface/calculationService'
-import { GetCalculatePriceResponseBody } from './interface/calculationDomain'
+import { GetCalculatePrice } from './interface/calculationDomain'
 
 export class CalculationService implements ICalculationService {
   /**
@@ -62,7 +62,7 @@ export class CalculationService implements ICalculationService {
     return { planFee, excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
   }
 
-  async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePriceResponseBody> {
+  async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePrice> {
     const servicesTypeFee = planType === 'advanced' ? ADVANCED_FEE : BASIC_FEE
     const planFee = GOVERNMENT_FEE + servicesTypeFee
     // 計算個類別明細

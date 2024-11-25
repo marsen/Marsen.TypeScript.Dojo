@@ -1,4 +1,4 @@
-import { GetCalculatePriceResponseBody } from './calculationDomain'
+import { GetCalculatePrice } from './calculationDomain'
 
 /**
  * 政府規費 2400/類
@@ -135,5 +135,5 @@ export interface ICalculationService {
    * @param includedFee - 是否計算手續費
    * @returns 各類別的費用細節
    */
-    calculateCategoriesFeeDetail2: (planType: TPlanType, categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
+    calculateCategoriesFeeDetail2: (planType: TPlanType, categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePrice>
 }
