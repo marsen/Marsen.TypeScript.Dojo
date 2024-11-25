@@ -41,10 +41,14 @@ export class CalculationService implements ICalculationService {
   private calculateTotalPriceWithFee (totalPrice: number,includedFee: boolean): number {
     return Math.ceil(includedFee ? ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000 : totalPrice)
   }
+  
+  private newFunction(planType:TPlanType):number {
+    return this.governmentFee + this.planFeeDic[planType]
+  }
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
     
-    const planFee = this.governmentFee + this.planFeeDic[planType]
+    const planFee = this.newFunction(planType)
     // 計算個類別明細
     const categoriesPriceDetail = categories.map(c => {
       const codeQty = c.items.length
@@ -102,11 +106,13 @@ export class CalculationService implements ICalculationService {
 
     return { planFee, excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
 
+
+
     function isSpecial(items: string[]) {
       return items.some(item => item.startsWith('3519'))
     }
   }
-
+  
   async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePrice> {
     const result = await this.calculateCategoriesFeeDetail(planType, categories, includedFee)
     return {
