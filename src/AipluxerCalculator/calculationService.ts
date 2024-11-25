@@ -56,9 +56,9 @@ export class CalculationService implements ICalculationService {
         excessQty = codeQty > 20 ? codeQty - 20 : 0
         excessFee = this.goodsFee
         excessTotalFee = excessQty * this.goodsFee
-      } else if (code === '35') {
-        const filteredItems = items.filter(item => item.startsWith('3519'))
-        const filteredQty = filteredItems.length
+      } 
+      if (code === '35') {
+        const filteredQty = (items.filter(item => item.startsWith('3519'))).length
         excessQty = filteredQty > 5 ? filteredQty - 5 : 0
         excessFee = this.specialServiceFee
         excessTotalFee = excessQty * this.specialServiceFee
