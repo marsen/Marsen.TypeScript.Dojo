@@ -51,6 +51,10 @@ export class CalculationService implements ICalculationService {
     return items.some(item => item.startsWith('3519'))
   }
 
+  private isGoods(code: string): boolean {
+    return code >= '01' && code <= '34'
+  }
+
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
     
     // 計算個類別明細
@@ -69,7 +73,7 @@ export class CalculationService implements ICalculationService {
       let excessFee = 0
       let excessTotalFee = 0
 
-      if (isGoods(c.code)) {
+      if (this.isGoods(c.code)) {
         excessQty = Math.max(codeQty - 20, 0)
         excessFee = this.goodsFee
         excessTotalFee = excessQty * this.goodsFee
@@ -100,9 +104,9 @@ export class CalculationService implements ICalculationService {
         },
         {
           name: PRODUCT_NAMES[3],
-          quantity: isGoods(c.code) ? excessQty : 0,
-          unitPrice: isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0,
-          totalPrice: isGoods(c.code) ? excessTotalFee : 0
+          quantity: this.isGoods(c.code) ? excessQty : 0,
+          unitPrice: this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0,
+          totalPrice: this.isGoods(c.code) ? excessTotalFee : 0
         },
         {
           name: PRODUCT_NAMES[4],
@@ -113,9 +117,7 @@ export class CalculationService implements ICalculationService {
       ]
       return { code: c.code, codeQty, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
 
-      function isGoods(code: string): boolean {
-        return code >= '01' && code <= '34'
-      }
+
       function isBasic(planType: TPlanType): boolean {
         return planType === 'basic'
       }
