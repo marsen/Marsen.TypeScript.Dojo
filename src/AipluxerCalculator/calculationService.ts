@@ -129,11 +129,11 @@ export class CalculationService implements ICalculationService {
       excessFee: result.excessFee,
       subtotal: result.subtotal,
       total: result.total,
-      detail: result.categoriesPriceDetail.map((detail) => ({
-        code: detail.code,
-        codeQty: detail.codeQty,
-        excessQty: detail.excessQty,
-        excessFee: detail.excessFee,
+      detail: result.categoriesPriceDetail.map((d) => ({
+        code: d.code,
+        codeQty: d.codeQty,
+        excessQty: d.excessQty,
+        excessFee: d.excessFee,
         planFee: result.planFee
       }))
     }
