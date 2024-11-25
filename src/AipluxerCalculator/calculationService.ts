@@ -3,15 +3,12 @@ import { GetCalculatePrice } from './interface/calculationDomain'
 
 
 class ProductItem{
-  name: TProductName 
-  quantity: number
-  unitPrice: number
-  totalPrice: number
-  constructor(name: TProductName, quantity: number, unitPrice: number, totalPrice: number){
-    this.name = name
-    this.quantity = quantity
-    this.unitPrice = unitPrice
-    this.totalPrice = totalPrice
+  public readonly totalPrice: number
+  constructor(
+    public readonly name: TProductName, 
+    public readonly quantity: number, 
+    public unitPrice: number){
+    this.totalPrice = quantity * unitPrice
       
   }
 }
@@ -109,10 +106,9 @@ export class CalculationService implements ICalculationService {
       const fee = subTotal - includedExcessFee
 
       const items = [
-        new ProductItem('application_regulation_fee', 1, this.governmentFee, this.governmentFee),
-        new ProductItem('application_basic_service_fee', (isBasic(planType) ? 1 : 0), (isBasic(planType) ? this.planFeeDic[planType] : 0), (isBasic(planType) ? this.planFeeDic[planType] : 0)),
-        new ProductItem('application_advanced_service_fee', (!isBasic(planType) ? 1 : 0), (!isBasic(planType) ? this.planFeeDic[planType] : 0), (!isBasic(planType) ? this.planFeeDic[planType] : 0)),
-     
+        new ProductItem('application_regulation_fee', 1, this.governmentFee),
+        new ProductItem('application_basic_service_fee', (isBasic(planType) ? 1 : 0), (isBasic(planType) ? this.planFeeDic[planType] : 0)),
+        new ProductItem('application_advanced_service_fee', (!isBasic(planType) ? 1 : 0), (!isBasic(planType) ? this.planFeeDic[planType] : 0)),
         {
           name: PRODUCT_NAMES[3],
           quantity: this.isGoods(c.code) ? excessQty : 0,
