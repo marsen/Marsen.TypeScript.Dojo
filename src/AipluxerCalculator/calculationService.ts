@@ -55,15 +55,11 @@ export class CalculationService implements ICalculationService {
     
     // 計算個類別明細
     const categoriesPriceDetail = this.getCategoriesPriceDetail(categories, planType, includedFee)
-
-    const totalExcessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
+    const excessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
     const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
     const total = this.calculateTotalPriceWithFee(subtotal,includedFee)
 
-    return { planFee: this.planFee(planType), excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
-
-
-
+    return { planFee: this.planFee(planType), excessFee, subtotal, total, categoriesPriceDetail }
   }
   
   private getCategoriesPriceDetail(categories: TCategory[],planType:TPlanType, includedFee: boolean) {
