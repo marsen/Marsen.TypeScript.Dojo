@@ -77,11 +77,14 @@ export class CalculationService implements ICalculationService {
       const subTotal = includedFee ? this.calculateTotalPriceWithFee(includedExcessFee) : includedExcessFee
       const fee = subTotal - includedExcessFee
 
+      const quantity3 = code >= '01' && code <= '34' ? excessQty : 0
       const itemsDetail: ItemsDetail[] = [
         { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
         { name: PRODUCT_NAMES[1], quantity: planType === 'basic' ? 1 : 0, unitPrice: planType === 'basic' ? this.basicFee : 0, totalPrice: planType === 'basic' ? this.basicFee : 0 },
         { name: PRODUCT_NAMES[2], quantity: planType === 'advanced' ? 1 : 0, unitPrice: planType === 'advanced' ? this.advancedFee : 0, totalPrice: planType === 'advanced' ? this.advancedFee : 0 },
-        this.createItemDetail(PRODUCT_NAMES[3], code >= '01' && code <= '34' ? excessQty : 0, code >= '01' && code <= '34' && excessQty !== 0 ? this.goodsFee : 0, code >= '01' && code <= '34' ? excessTotalFee : 0),
+        this.createItemDetail(PRODUCT_NAMES[3], 
+          quantity3, 
+          code >= '01' && code <= '34' && excessQty !== 0 ? this.goodsFee : 0, code >= '01' && code <= '34' ? excessTotalFee : 0),
         this.createItemDetail(PRODUCT_NAMES[4], code === '35' && items.some(item => item.startsWith('3519')) ? excessQty : 0, code === '35' && items.some(item => item.startsWith('3519')) && excessQty !== 0 ? this.specialServiceFee : 0, code === '35' && items.some(item => item.startsWith('3519')) ? excessTotalFee : 0)
       ]
       return { code, codeQty, excessTotalFee, fee: Math.ceil(fee), subTotal: Math.ceil(subTotal), items: itemsDetail, excessFee, excessQty }
