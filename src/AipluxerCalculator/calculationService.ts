@@ -43,9 +43,8 @@ export class CalculationService implements ICalculationService {
   }
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
-    const servicesTypeFee = this.planFeeDic[planType]
     
-    const planFee = this.governmentFee + servicesTypeFee
+    const planFee = this.governmentFee + this.planFeeDic[planType]
     // 計算個類別明細
     const categoriesPriceDetail = categories.map(c => {
       const codeQty = c.items.length
