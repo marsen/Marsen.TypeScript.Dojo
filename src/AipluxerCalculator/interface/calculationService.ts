@@ -1,34 +1,6 @@
 import { GetCalculatePrice } from './calculationDomain'
 
-/**
- * 政府規費 2400/類
- * 此為政府收取的標準處理費用。
- */
-export const GOVERNMENT_FEE = 2400 as const
 
-/**
- * 平台服務費 2200/類
- * 此為基本方案平台服務費用。
- */
-export const BASIC_FEE = 2200 as const
-
-/**
- * 平台服務費 7600/類
- * 此為安心方案平台服務費用。
- */
-export const ADVANCED_FEE = 7600 as const
-
-/**
- * 01 到 34 類，超項所收取的服務費
- * 超過20項 每項 200 元
- */
-export const ADDITIONAL_SERVICE_FEE_01_TO_34 = 200 as const
-
-/**
- * 35類的3519類別，超項所收取的服務費
- * 超過5項 每項 500 元
- */
-export const ADDITIONAL_SERVICE_FEE_35_3519 = 500 as const
 
 /**
  * 服務類別 (一般方案/安心方案)
@@ -36,10 +8,6 @@ export const ADDITIONAL_SERVICE_FEE_35_3519 = 500 as const
 export const PLAN_TYPES = ['basic', 'advanced'] as const
 export type TPlanType = typeof PLAN_TYPES[number]
 
-/**
- *  手續費 (3% 手續費會等於30。 單位：千位)
- */
-export const FEE_RATE = 30 as const
 
 /**
  * 總計算細節
