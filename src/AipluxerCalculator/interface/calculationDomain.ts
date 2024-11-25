@@ -1,4 +1,4 @@
-import { PLAN_TYPES, TCategory } from "./calculationService"
+import { TCategory, TPlanType } from "./calculationService"
 
 /** 類別細項(前端需要的資料格式) */
 export interface CategoriesPriceSummary {
@@ -36,5 +36,5 @@ export interface ICalculationServiceDomain {
  * @param includedFee - 是否計算手續費
  * @returns 各類別的費用細節
  */
-  handleAllPriceDetail: (planType: typeof PLAN_TYPES[number], categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
+  handleAllPriceDetail: (planType: TPlanType, categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
 }

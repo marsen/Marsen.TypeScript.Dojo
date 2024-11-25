@@ -34,6 +34,7 @@ export const ADDITIONAL_SERVICE_FEE_35_3519 = 500 as const
  * 服務類別 (一般方案/安心方案)
  */
 export const PLAN_TYPES = ['basic', 'advanced'] as const
+export type TPlanType = typeof PLAN_TYPES[number]
 
 /**
  *  手續費 (3% 手續費會等於30。 單位：千位)
@@ -124,7 +125,7 @@ export interface ICalculationService {
    * @param includedFee - 是否計算手續費
    * @returns 各類別的費用細節
    */
-  calculateCategoriesFeeDetail: (planType: typeof PLAN_TYPES[number], categories: TCategory[], includedFee: boolean) => Promise<totalPriceDetail>
+  calculateCategoriesFeeDetail: (planType: TPlanType, categories: TCategory[], includedFee: boolean) => Promise<totalPriceDetail>
 
     /**
    * 計算各類別的費用細節
@@ -134,5 +135,5 @@ export interface ICalculationService {
    * @param includedFee - 是否計算手續費
    * @returns 各類別的費用細節
    */
-    calculateCategoriesFeeDetail2: (planType: typeof PLAN_TYPES[number], categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
+    calculateCategoriesFeeDetail2: (planType: TPlanType, categories: TCategory[], includedFee: boolean) => Promise<GetCalculatePriceResponseBody>
 }
