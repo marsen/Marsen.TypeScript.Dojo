@@ -85,13 +85,12 @@ export class CalculationService implements ICalculationService {
   
   private getCategoriesPriceDetail(categories: TCategory[],planType:TPlanType, includedFee: boolean) {
     return categories.map(c => {
-      const codeQty = c.items.length
       let excessQty = 0
       let excessFee = 0
       let excessTotalFee = 0
 
       if (this.isGoods(c.code)) {
-        excessQty = Math.max(codeQty - 20, 0)
+        excessQty = Math.max(c.items.length - 20, 0)
         excessFee = this.goodsFee
         excessTotalFee = excessQty * this.goodsFee
       }
@@ -112,7 +111,7 @@ export class CalculationService implements ICalculationService {
         new ProductItem('excess_item_fee', (this.isGoods(c.code) ? excessQty : 0), (this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0)),
         new ProductItem('special_excess_item_fee', (this.isSpecial(c.items) ? excessQty : 0), (this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0))
       ]
-      return { code: c.code, codeQty, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
+      return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
 
 
       function isBasic(planType: TPlanType): boolean {
