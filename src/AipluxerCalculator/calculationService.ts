@@ -88,7 +88,7 @@ export class CalculationService implements ICalculationService {
           unitPrice: isSpecial(items) && excessQty !== 0 ? this.specialServiceFee : 0, 
           totalPrice: isSpecial(items) ? excessTotalFee : 0 }
       ]
-      return { code, codeQty, excessTotalFee, fee: fee, subTotal: Math.ceil(subTotal), items: itemsDetail, excessFee, excessQty }
+      return { code, codeQty, excessTotalFee, fee: fee, subTotal: subTotal, items: itemsDetail, excessFee, excessQty }
 
       function isGoods(code:string): boolean {
         return code >= '01' && code <= '34'
