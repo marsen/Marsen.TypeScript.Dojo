@@ -1,6 +1,20 @@
-import { type ICalculationService, PRODUCT_NAMES, type totalPriceDetail, TCategory, TPlanType } from './interface/calculationService'
+import { type ICalculationService, PRODUCT_NAMES, type totalPriceDetail, TCategory, TPlanType, TProductName } from './interface/calculationService'
 import { GetCalculatePrice } from './interface/calculationDomain'
 
+
+class ProductItem{
+  name: TProductName 
+  quantity: number
+  unitPrice: number
+  totalPrice: number
+  constructor(name: TProductName, quantity: number, unitPrice: number, totalPrice: number){
+    this.name = name
+    this.quantity = quantity
+    this.unitPrice = unitPrice
+    this.totalPrice = totalPrice
+      
+  }
+}
 export class CalculationService implements ICalculationService {
   /**
   * 政府規費 2400/類

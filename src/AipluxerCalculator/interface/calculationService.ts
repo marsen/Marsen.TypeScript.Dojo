@@ -1,3 +1,4 @@
+import e from 'express'
 import { GetCalculatePrice } from './calculationDomain'
 
 
@@ -67,6 +68,7 @@ export const PRODUCT_NAMES = [
   /** 超項費(500) */
   'special_excess_item_fee'
 ] as const
+export type TProductName = typeof PRODUCT_NAMES[number]
 
 export type TCategory = {
   code: string;
