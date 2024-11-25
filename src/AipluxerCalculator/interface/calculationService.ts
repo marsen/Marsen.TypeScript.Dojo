@@ -22,30 +22,25 @@ export interface totalPriceDetail {
   /** 總金額 (可能包含手續費) */
   total: number
   /** 各類細節 */
-  categoriesPriceDetail: CategoriesPriceDetail[]
-}
-
-/**
- * 各類細節
- */
-export interface CategoriesPriceDetail {
-  /** 大類 */
-  code: string
-  /** 選擇商品/服務項目總數量 */
-  codeQty: number
-  /** 超項費總金額 */
-  excessTotalFee: number
-  /** 手續費 */
-  fee: number
-  /** 申請類別總額 */
-  subTotal: number
-  /** 項目細節 */
-  items: ItemsDetail[]
-
-  /** 超項數量(單個：前端所需欄位) */
-  excessQty: number
-  /** 超項金額(單個：前端所需欄位) */
-  excessFee: number
+  categoriesPriceDetail: Array<{
+    /** 大類 */
+    code: string
+    /** 選擇商品/服務項目總數量 */
+    codeQty: number
+    /** 超項費總金額 */
+    excessTotalFee: number
+    /** 手續費 */
+    fee: number
+    /** 申請類別總額 */
+    subTotal: number
+    /** 項目細節 */
+    items: ItemsDetail[]
+  
+    /** 超項數量(單個：前端所需欄位) */
+    excessQty: number
+    /** 超項金額(單個：前端所需欄位) */
+    excessFee: number
+  }>
 }
 
 /**

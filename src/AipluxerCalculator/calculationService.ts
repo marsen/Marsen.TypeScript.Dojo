@@ -1,4 +1,4 @@
-import { type ICalculationService, type CategoriesPriceDetail, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, TCategory, TPlanType } from './interface/calculationService'
+import { type ICalculationService, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, TCategory, TPlanType } from './interface/calculationService'
 import { GetCalculatePrice } from './interface/calculationDomain'
 
 export class CalculationService implements ICalculationService {
@@ -54,7 +54,7 @@ export class CalculationService implements ICalculationService {
     const servicesTypeFee = planType === 'advanced' ? this.advancedFee : this.basicFee
     const planFee = this.governmentFee + servicesTypeFee
     // 計算個類別明細
-    const categoriesPriceDetail: CategoriesPriceDetail[] = categories.map(category => {
+    const categoriesPriceDetail = categories.map(category => {
       const { code, items } = category
       const codeQty = items.length
       let excessQty = 0
