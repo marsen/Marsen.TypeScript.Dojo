@@ -42,13 +42,12 @@ export class CalculationService implements ICalculationService {
     return Math.ceil(includedFee ? ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000 : totalPrice)
   }
   
-  private newFunction(planType:TPlanType):number {
+  private planFee(planType:TPlanType):number {
     return this.governmentFee + this.planFeeDic[planType]
   }
 
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
     
-    const planFee = this.newFunction(planType)
     // 計算個類別明細
     const categoriesPriceDetail = categories.map(c => {
       const codeQty = c.items.length
@@ -67,7 +66,7 @@ export class CalculationService implements ICalculationService {
         excessTotalFee = excessQty * this.specialServiceFee
       }
 
-      const includedExcessFee = excessTotalFee + planFee
+      const includedExcessFee = excessTotalFee + this.planFee(planType)
       const subTotal = this.calculateTotalPriceWithFee(includedExcessFee,includedFee)
       const fee = subTotal - includedExcessFee
 
@@ -101,10 +100,10 @@ export class CalculationService implements ICalculationService {
     })
 
     const totalExcessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
-    const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + planFee + category.excessTotalFee, 0)
+    const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
     const total = this.calculateTotalPriceWithFee(subtotal,includedFee)
 
-    return { planFee, excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
+    return { planFee: this.planFee(planType), excessFee: totalExcessFee, subtotal, total, categoriesPriceDetail }
 
 
 
