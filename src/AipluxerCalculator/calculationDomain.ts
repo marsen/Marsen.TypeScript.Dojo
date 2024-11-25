@@ -13,21 +13,6 @@ export class CalculationDomain implements ICalculationDomain {
   //todo: bad name GetCalculatePriceResponseBody request response 應該是 Controller 的事情
   //todo: bad name categories 複數的名詞應該是陣列/集合/清單
   async handleAllPriceDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePriceResponseBody> {
-    //todo: 測試覆蓋率 100%，表示這層沒有太多邏輯，可以考慮整併
-    const result = await this.calculateService.calculateCategoriesFeeDetail(planType, categories, includedFee)
-    // 將資料處理成前端所需資料
-    return {
-      planFee: result.planFee,
-      excessFee: result.excessFee,
-      subtotal: result.subtotal,
-      total: result.total,
-      detail: result.categoriesPriceDetail.map((detail) => ({
-        code: detail.code,
-        codeQty: detail.codeQty,
-        excessQty: detail.excessQty,
-        excessFee: detail.excessFee,
-        planFee: result.planFee
-      }))
-    }
+    return await this.calculateService.calculateCategoriesFeeDetail2(planType, categories, includedFee)
   }
 }
