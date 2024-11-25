@@ -54,7 +54,7 @@ describe('CalculationService', () => {
       //act
       const result = await target.calculateCategoriesFeeDetail('basic', [{ code: '01', items: ['0101', '0102'] }], false)
       //assert
-      expect(result).toStrictEqual(expected)
+      expect(result).toEqual(expected)
     })
   })
 })

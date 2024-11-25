@@ -109,7 +109,7 @@ export class CalculationService implements ICalculationService {
       const fee = subTotal - includedExcessFee
 
       const items = [
-        { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
+        new ProductItem(PRODUCT_NAMES[0], 1, this.governmentFee, this.governmentFee),
         {
           name: PRODUCT_NAMES[1],
           quantity: isBasic(planType) ? 1 : 0,
