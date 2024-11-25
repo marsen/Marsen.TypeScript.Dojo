@@ -1,4 +1,4 @@
-import { type ICalculationService, type ItemsDetail, PRODUCT_NAMES, type totalPriceDetail, TCategory, TPlanType } from './interface/calculationService'
+import { type ICalculationService, PRODUCT_NAMES, type totalPriceDetail, TCategory, TPlanType } from './interface/calculationService'
 import { GetCalculatePrice } from './interface/calculationDomain'
 
 export class CalculationService implements ICalculationService {
@@ -34,17 +34,7 @@ export class CalculationService implements ICalculationService {
    *  手續費 (3% 手續費會等於30。 單位：千位)
    */
   private readonly rate = 30 
-  /**
-   * 建立單個項目細節
-   * @param name - 項目名稱
-   * @param quantity - 數量
-   * @param unitPrice - 單位金額
-   * @param totalPrice - 單位總金額
-   * @returns 項目細節
-   */
-  private createItemDetail (name: typeof PRODUCT_NAMES[number], quantity: number, unitPrice: number, totalPrice: number): ItemsDetail {
-    return { name, quantity, unitPrice, totalPrice }
-  }
+
 
   private calculateTotalPriceWithFee (TotalPrice: number): number {
     return ((TotalPrice * 1000) + (TotalPrice * this.rate)) / 1000
@@ -80,7 +70,7 @@ export class CalculationService implements ICalculationService {
       const quantity3 = code >= '01' && code <= '34' ? excessQty : 0
       const unitPrice3 = code >= '01' && code <= '34' && excessQty !== 0 ? this.goodsFee : 0
       const totalPrice3 = code >= '01' && code <= '34' ? excessTotalFee : 0
-      const itemsDetail: ItemsDetail[] = [
+      const itemsDetail = [
         { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
         { name: PRODUCT_NAMES[1], quantity: planType === 'basic' ? 1 : 0, unitPrice: planType === 'basic' ? this.basicFee : 0, totalPrice: planType === 'basic' ? this.basicFee : 0 },
         { name: PRODUCT_NAMES[2], quantity: planType === 'advanced' ? 1 : 0, unitPrice: planType === 'advanced' ? this.advancedFee : 0, totalPrice: planType === 'advanced' ? this.advancedFee : 0 },

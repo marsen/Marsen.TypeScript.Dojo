@@ -34,7 +34,16 @@ export interface totalPriceDetail {
     /** 申請類別總額 */
     subTotal: number
     /** 項目細節 */
-    items: ItemsDetail[]
+    items: Array<{
+      /** 項目名稱 */
+      name: typeof PRODUCT_NAMES[number]
+      /** 數量 */
+      quantity: number
+      /** 單位金額 */
+      unitPrice: number
+      /** 單位總金額 */
+      totalPrice: number
+    }>
   
     /** 超項數量(單個：前端所需欄位) */
     excessQty: number
@@ -58,20 +67,6 @@ export const PRODUCT_NAMES = [
   /** 超項費(500) */
   'special_excess_item_fee'
 ] as const
-
-/**
- * 項目細節
- */
-export interface ItemsDetail {
-  /** 項目名稱 */
-  name: typeof PRODUCT_NAMES[number]
-  /** 數量 */
-  quantity: number
-  /** 單位金額 */
-  unitPrice: number
-  /** 單位總金額 */
-  totalPrice: number
-}
 
 export type TCategory = {
   code: string;
