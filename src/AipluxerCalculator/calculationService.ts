@@ -7,21 +7,18 @@ export class CalculationService implements ICalculationService {
   * 此為政府收取的標準處理費用。
   */
   private readonly governmentFee = 2400 
-  /**
-  * 平台服務費 2200/類
-  * 此為基本方案平台服務費用。
-  */
-  private readonly basicFee = 2200
-
-  /**
-  * 平台服務費 7600/類
-  * 此為安心方案平台服務費用。
-  */
-  private readonly advancedFee = 7600 
 
   private readonly planFeeDic = {
-    basic: this.basicFee,
-    advanced: this.advancedFee
+    /**
+    * 平台服務費 2200/類
+    * 此為基本方案平台服務費用。
+    */
+    basic: 2200,
+    /**
+    * 平台服務費 7600/類
+    * 此為安心方案平台服務費用。
+    */
+    advanced: 7600
   }
 
   /**
@@ -74,9 +71,18 @@ export class CalculationService implements ICalculationService {
 
       const itemsDetail = [
         { name: PRODUCT_NAMES[0], quantity: 1, unitPrice: this.governmentFee, totalPrice: this.governmentFee },
-        { name: PRODUCT_NAMES[1], quantity: planType === 'basic' ? 1 : 0, unitPrice: planType === 'basic' ? this.basicFee : 0, totalPrice: planType === 'basic' ? this.basicFee : 0 },
-        { name: PRODUCT_NAMES[2], quantity: planType === 'advanced' ? 1 : 0, unitPrice: planType === 'advanced' ? this.advancedFee : 0, totalPrice: planType === 'advanced' ? this.advancedFee : 0 },
-        { name: PRODUCT_NAMES[3], quantity: isGoods(code) ? excessQty : 0, unitPrice: isGoods(code) && excessQty !== 0 ? this.goodsFee : 0, totalPrice: isGoods(code) ? excessTotalFee : 0 },
+        { name: PRODUCT_NAMES[1], 
+          quantity: planType === 'basic' ? 1 : 0, 
+          unitPrice: planType === 'basic' ? this.planFeeDic[planType] : 0, 
+          totalPrice: planType === 'basic' ? this.planFeeDic[planType] : 0 },
+        { name: PRODUCT_NAMES[2], 
+          quantity: planType === 'advanced' ? 1 : 0, 
+          unitPrice: planType === 'advanced' ? this.planFeeDic[planType] : 0, 
+          totalPrice: planType === 'advanced' ? this.planFeeDic[planType] : 0 },
+        { name: PRODUCT_NAMES[3], 
+          quantity: isGoods(code) ? excessQty : 0, 
+          unitPrice: isGoods(code) && excessQty !== 0 ? this.goodsFee : 0, 
+          totalPrice: isGoods(code) ? excessTotalFee : 0 },
         { name: PRODUCT_NAMES[4], 
           quantity: isSpecial(items) ? excessQty : 0, 
           unitPrice: isSpecial(items) && excessQty !== 0 ? this.specialServiceFee : 0, 
