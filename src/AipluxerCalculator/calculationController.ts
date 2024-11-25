@@ -19,7 +19,6 @@ export const getCalculatePriceRequestBodySchema = z.object({
   includedFee: z.boolean().describe('是否包含手續費'),
   categories
 })
-export type TGetCalculatePriceRequestBodySchema = z.infer<typeof getCalculatePriceRequestBodySchema>
 
 @injectable()
 export class CalculationController {
