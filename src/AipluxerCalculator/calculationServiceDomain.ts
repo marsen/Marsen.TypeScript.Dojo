@@ -16,6 +16,7 @@ export class CalculationServiceDomain implements ICalculationServiceDomain {
   //todo: bad name GetCalculatePriceResponseBody request response 應該是 Controller 的事情
   //todo: bad name categories 複數的名詞應該是陣列/集合/清單
   async handleAllPriceDetail (planType: typeof PLAN_TYPES[number], categories: Categories, includedFee: boolean): Promise<GetCalculatePriceResponseBody> {
+    //todo: 測試覆蓋率 100%，表示這層沒有太多邏輯，可以考慮整併
     const result = await this.calculateService.calculateCategoriesFeeDetail(planType, categories, includedFee)
     // 將資料處理成前端所需資料
     return {
