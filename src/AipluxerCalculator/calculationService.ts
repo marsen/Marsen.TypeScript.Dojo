@@ -92,12 +92,11 @@ export class CalculationService implements ICalculationService {
       if (this.isGoods(c.code)) {
         excessQty = Math.max(c.items.length - 20, 0)
         excessFee = this.goodsFee
-        excessTotalFee = excessQty * this.goodsFee
       } else if (this.isSpecial(c.items)) {
         excessQty = Math.max((c.items.filter(i => i.startsWith('3519'))).length - 5, 0)
         excessFee = this.specialServiceFee
-        excessTotalFee = excessQty * this.specialServiceFee
       }
+        excessTotalFee = excessQty * excessFee
 
       const includedExcessFee = excessTotalFee + this.planFee(planType)
       const subTotal = this.calculateTotalPriceWithFee(includedExcessFee, includedFee)
