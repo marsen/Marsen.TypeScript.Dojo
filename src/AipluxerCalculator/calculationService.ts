@@ -104,11 +104,15 @@ export class CalculationService implements ICalculationService {
       const includedExcessFee = excessTotalFee + this.planFee(planType)
       const subTotal = this.calculateTotalPriceWithFee(includedExcessFee, includedFee)
       const fee = subTotal - includedExcessFee
+      const basicQty = this.isBasic(planType) ? 1 : 0
+      const basicAmount = basicQty * this.planFeeDic[planType]
+      const specialQty = this.isSpecial(c.items) ? 1 : 0
+      const specialAmount = specialQty * this.planFeeDic[planType]
 
       const items = [
         new ProductItem('application_regulation_fee', 1, this.governmentFee),
-        new ProductItem('application_basic_service_fee', (this.isBasic(planType) ? 1 : 0), (this.isBasic(planType) ? this.planFeeDic[planType] : 0)),
-        new ProductItem('application_advanced_service_fee', (!this.isBasic(planType) ? 1 : 0), (!this.isBasic(planType) ? this.planFeeDic[planType] : 0)),
+        new ProductItem('application_basic_service_fee', basicQty, basicAmount),
+        new ProductItem('application_advanced_service_fee', specialQty, specialAmount),
         new ProductItem('excess_item_fee', (this.isGoods(c.code) ? excessQty : 0), (this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0)),
         new ProductItem('special_excess_item_fee', (this.isSpecial(c.items) ? excessQty : 0), (this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0))
       ]
