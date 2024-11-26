@@ -93,8 +93,7 @@ export class CalculationService implements ICalculationService {
         excessQty = Math.max(c.items.length - 20, 0)
         excessFee = this.goodsFee
         excessTotalFee = excessQty * this.goodsFee
-      }
-      if (this.isSpecial(c.items)) {
+      } else if (this.isSpecial(c.items)) {
         excessQty = Math.max((c.items.filter(i => i.startsWith('3519'))).length - 5, 0)
         excessFee = this.specialServiceFee
         excessTotalFee = excessQty * this.specialServiceFee
