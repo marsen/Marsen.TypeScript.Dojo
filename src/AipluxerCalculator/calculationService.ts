@@ -104,8 +104,7 @@ export class CalculationService implements ICalculationService {
       const includedExcessFee = excessTotalFee + this.planFee(planType)
       const subTotal = this.calculateTotalPriceWithFee(includedExcessFee, includedFee)
       const fee = subTotal - includedExcessFee
-      const basicQty = this.isBasic(planType) ? 1 : 0
-      const basicAmount = basicQty * this.planFeeDic[planType]
+
       const specialQty = !this.isBasic(planType) ? 1 : 0
       //console.log('specialQty',specialQty)
       const specialAmount = specialQty * this.planFeeDic[planType]
@@ -113,14 +112,21 @@ export class CalculationService implements ICalculationService {
 
       const items = [
         this.getGovernmentFee(),
-        new ProductItem('application_basic_service_fee', basicQty, basicAmount),
+        this.basicFee(planType),
         new ProductItem('application_advanced_service_fee', specialQty, specialAmount),
         new ProductItem('excess_item_fee', (this.isGoods(c.code) ? excessQty : 0), (this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0)),
         new ProductItem('special_excess_item_fee', (this.isSpecial(c.items) ? excessQty : 0), (this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0))
       ]
       return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
     })
+
+
   }
+  private basicFee(planType:TPlanType): ProductItem {
+    const basicQty = this.isBasic(planType) ? 1 : 0
+    const basicAmount = basicQty * this.planFeeDic[planType]
+    return new ProductItem('application_basic_service_fee', basicQty, basicAmount)
+  } 
 
   private getGovernmentFee() {
     return new ProductItem('application_regulation_fee', 1, this.governmentFee)
