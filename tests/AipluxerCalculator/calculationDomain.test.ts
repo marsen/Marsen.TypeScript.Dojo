@@ -329,13 +329,13 @@ describe('CalculationDomain', () => {
         expect(result).toEqual(expected)
       })
 
-      it('有超項(3519類 7 項，超 2 項，02類 21 項，超 1 項)', async () => {
+      it('有超項(3519類 7 項，超 2 項，02類 24 項，超 4 項)', async () => {
         //arrange
         const expected = {
           planFee: 4600,
-          excessFee: 1200,
-          subtotal: 10400,
-          total: 10400,
+          excessFee: 1800,
+          subtotal: 11000,
+          total: 11000,
           detail: [
             {
               code: '35',
@@ -346,8 +346,8 @@ describe('CalculationDomain', () => {
             },
             {
               code: '02',
-              codeQty: 21,
-              excessQty: 1,
+              codeQty: 24,
+              excessQty: 4,
               excessFee: 200,
               planFee: 4600
             }
@@ -355,7 +355,7 @@ describe('CalculationDomain', () => {
         }
     
         //act
-        const result = await target.handleAllPriceDetail('basic', mockCategoryItems('3519',7).concat(mockCategoryItems('02',21)), false)
+        const result = await target.handleAllPriceDetail('basic', mockCategoryItems('3519',7).concat(mockCategoryItems('02',24)), false)
         console.log(result)
         //assert
         expect(result).toEqual(expected)
