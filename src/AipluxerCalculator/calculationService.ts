@@ -1,4 +1,4 @@
-import { type ICalculationService, PRODUCT_NAMES, type totalPriceDetail, TCategory, TPlanType, TProductName } from './interface/calculationService'
+import { type ICalculationService, type totalPriceDetail, TCategory, TPlanType, TProductName } from './interface/calculationService'
 import { GetCalculatePrice } from './interface/calculationDomain'
 
 
@@ -7,9 +7,9 @@ export class ProductItem{
   constructor(
     public readonly name: TProductName, 
     public readonly quantity: number, 
-    public unitPrice: number){
-    this.totalPrice = quantity * unitPrice
-      
+    public unitPrice: number
+  ){
+    this.totalPrice = quantity * unitPrice      
   }
 }
 export class CalculationService implements ICalculationService {

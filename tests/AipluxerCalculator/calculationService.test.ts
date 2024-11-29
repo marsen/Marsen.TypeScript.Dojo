@@ -37,7 +37,7 @@ describe('CalculationService', () => {
       //act
       const result = await target.calculateCategoriesFeeDetail('basic', mockCategoryItems('01',2), false)
       //assert
-      expect(result).toMatchObject(expected)
+      expect(result).toEqual(expected)
     })
     it('一般方案，有超項(08類-28項)', async () => {
       //arrange
@@ -65,7 +65,7 @@ describe('CalculationService', () => {
       //act
       const result = await target.calculateCategoriesFeeDetail('basic', mockCategoryItems('08',28), false)
       //assert
-      expect(result).toMatchObject(expected)
+      expect(result).toEqual(expected)
     })
     
     it('進階方案，無超項(01類-2項)', async () => {
@@ -95,8 +95,23 @@ describe('CalculationService', () => {
       //act
       const result = await target.calculateCategoriesFeeDetail('advanced', mockCategoryItems('01',2), false)
       //assert
-      expect(result).toMatchObject(expected)
+      expect(result).toEqual(expected)
     })
 
   })
 })
+
+describe('ProductItem', () => {
+  it('ProductItem', () => {
+    //arrange
+    const expected = {
+      name: 'application_basic_service_fee',
+      quantity: 1,
+      unitPrice: 100,
+      totalPrice: 100
+    };
+    //act
+    const target = new ProductItem('application_basic_service_fee', 1, 100)
+    //assert
+    expect(target).toEqual(expected)
+})})
