@@ -8,7 +8,7 @@ describe('CalculationService', () => {
   })
   const mockCategoryItems = (code:string,Qty:number)=> 
     [{ code:code.substring(0,2), items: Array.from({ length: Qty }, (_, i) => `${code}${(i + 1).toString().padStart(2, '0')}`) }] 
-  describe('createItemDetail', () => {
+  describe('calculateCategoriesFeeDetail', () => {
     it('一般方案，無超項(01類-2項)', async () => {
       //arrange
       const expected =  {

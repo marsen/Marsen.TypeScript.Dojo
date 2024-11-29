@@ -142,9 +142,9 @@ export class CalculationService implements ICalculationService {
   }
 
   async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePrice> {
-    const categoriesPriceDetail = this.getCategoriesPriceDetail(categories, planType, includedFee)
-    const excessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
-    const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
+    const details = this.getCategoriesPriceDetail(categories, planType, includedFee)
+    const excessFee = details.reduce((acc, category) => acc + category.excessTotalFee, 0)
+    const subtotal = details.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
     const total = this.calculateTotalPriceWithFee(subtotal,includedFee)
 
     return {
@@ -152,7 +152,7 @@ export class CalculationService implements ICalculationService {
       excessFee: excessFee,
       subtotal: subtotal,
       total: total,
-      detail: categoriesPriceDetail.map((d) => ({
+      detail: details.map((d) => ({
         code: d.code,
         codeQty: d.codeQty,
         excessQty: d.excessQty,
