@@ -55,7 +55,7 @@ export class CalculationService implements ICalculationService {
       '31', '32', '33', '34'
     ]
 
-  private calculateTotalPriceWithFee (totalPrice: number,includedFee: boolean): number {
+  private getTotal (totalPrice: number,includedFee: boolean): number {
     return Math.ceil(includedFee ? ((totalPrice * 1000) + (totalPrice * this.rate)) / 1000 : totalPrice)
   }
   
@@ -116,7 +116,7 @@ export class CalculationService implements ICalculationService {
         excessTotalFee = excessQty * excessFee
 
       const includedExcessFee = excessTotalFee + this.planFee(planType)
-      const subTotal = this.calculateTotalPriceWithFee(includedExcessFee, includedFee)
+      const subTotal = this.getTotal(includedExcessFee, includedFee)
       const fee = subTotal - includedExcessFee
 
       const items = [
@@ -136,7 +136,7 @@ export class CalculationService implements ICalculationService {
     const categoriesPriceDetail = this.getCategoriesPriceDetail(categories, planType, includedFee)
     const excessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
     const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
-    const total = this.calculateTotalPriceWithFee(subtotal,includedFee)
+    const total = this.getTotal(subtotal,includedFee)
 
     return { planFee: this.planFee(planType), excessFee, subtotal, total, categoriesPriceDetail }
   }
@@ -145,7 +145,7 @@ export class CalculationService implements ICalculationService {
     const details = this.getCategoriesPriceDetail(categories, planType, includedFee)
     const excessFee = details.reduce((acc, category) => acc + category.excessTotalFee, 0)
     const subtotal = details.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
-    const total = this.calculateTotalPriceWithFee(subtotal,includedFee)
+    const total = this.getTotal(subtotal,includedFee)
 
     return {
       planFee: this.planFee(planType),
