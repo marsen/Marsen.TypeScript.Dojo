@@ -45,3 +45,7 @@ Thumbs.db
 
 # Jest and other test runner's artifacts
 test-results/
+
+# stryker temp files
+.stryker-tmp
+reports

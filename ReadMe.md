@@ -48,7 +48,8 @@ package.json\
 
 ```script
 "scripts":{
-    "test": "mocha -r ts-node/register tests/**/*.test.ts",
+    "test": "npx jest",
+    "test": "npx jest --coverage",
 }
 ```
 
@@ -103,7 +104,10 @@ export default class calculator {
 
 ## 測試覆蓋率
 
-// TODO
+`npx jest --coverage`
+
+## 變異測試
+
 
 ## 參考
 
