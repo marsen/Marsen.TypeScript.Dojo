@@ -105,24 +105,20 @@ export class CalculationService implements ICalculationService {
       const subTotal = this.calculateTotalPriceWithFee(includedExcessFee, includedFee)
       const fee = subTotal - includedExcessFee
 
-      const advancedQty = !this.isBasic(planType) ? 1 : 0
-      //console.log('specialQty',specialQty)
-      const advancedAmount = advancedQty * this.planFeeDic[planType]
-      //console.log('specialAmount',specialAmount)
-
       const items = [
         this.getGovernmentFee(),
         this.basicFee(planType),
-        this.advancedFee(advancedQty, advancedAmount),
+        this.advanced(planType),
         new ProductItem('excess_item_fee', (this.isGoods(c.code) ? excessQty : 0), (this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0)),
         new ProductItem('special_excess_item_fee', (this.isSpecial(c.items) ? excessQty : 0), (this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0))
       ]
       return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
     })
-
-
   }
-  private advancedFee(advancedQty: number, advancedAmount: number) {
+
+  private advanced(planType:TPlanType): ProductItem {
+    const advancedQty = !this.isBasic(planType) ? 1 : 0
+    const advancedAmount = advancedQty * this.planFeeDic[planType]
     return new ProductItem('application_advanced_service_fee', advancedQty, advancedAmount)
   }
 
