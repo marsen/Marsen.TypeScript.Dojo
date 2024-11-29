@@ -75,17 +75,29 @@ export class CalculationService implements ICalculationService {
     return this.goodsCategories.includes(code)
   }
 
-  async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
-    
-    // 計算個類別明細
-    const categoriesPriceDetail = this.getCategoriesPriceDetail(categories, planType, includedFee)
-    const excessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
-    const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
-    const total = this.calculateTotalPriceWithFee(subtotal,includedFee)
-
-    return { planFee: this.planFee(planType), excessFee, subtotal, total, categoriesPriceDetail }
+  private retailExcessFee(c: TCategory, excessQty: number) {
+    return new ProductItem('special_excess_item_fee', (this.isSpecial(c.items) ? excessQty : 0), (this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0))
   }
-  
+
+  private excessFee(c: TCategory, excessQty: number) {
+    return new ProductItem('excess_item_fee', (this.isGoods(c.code) ? excessQty : 0), (this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0))
+  }
+
+  private advanced(planType:TPlanType): ProductItem {
+    const advancedQty = !this.isBasic(planType) ? 1 : 0
+    const advancedAmount = advancedQty * this.planFeeDic[planType]
+    return new ProductItem('application_advanced_service_fee', advancedQty, advancedAmount)
+  }
+
+  private basicFee(planType:TPlanType): ProductItem {
+    const basicQty = this.isBasic(planType) ? 1 : 0
+    const basicAmount = basicQty * this.planFeeDic[planType]
+    return new ProductItem('application_basic_service_fee', basicQty, basicAmount)
+  } 
+
+  private getGovernmentFee() {
+    return new ProductItem('application_regulation_fee', 1, this.governmentFee)
+  }
   private getCategoriesPriceDetail(categories: TCategory[],planType:TPlanType, includedFee: boolean) {
     return categories.map(c => {
       let excessQty = 0
@@ -109,27 +121,22 @@ export class CalculationService implements ICalculationService {
         this.getGovernmentFee(),
         this.basicFee(planType),
         this.advanced(planType),
-        new ProductItem('excess_item_fee', (this.isGoods(c.code) ? excessQty : 0), (this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0)),
-        new ProductItem('special_excess_item_fee', (this.isSpecial(c.items) ? excessQty : 0), (this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0))
+        this.excessFee(c, excessQty),
+        this.retailExcessFee(c, excessQty)
       ]
       return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
     })
   }
 
-  private advanced(planType:TPlanType): ProductItem {
-    const advancedQty = !this.isBasic(planType) ? 1 : 0
-    const advancedAmount = advancedQty * this.planFeeDic[planType]
-    return new ProductItem('application_advanced_service_fee', advancedQty, advancedAmount)
-  }
+  async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
+    
+    // 計算個類別明細
+    const categoriesPriceDetail = this.getCategoriesPriceDetail(categories, planType, includedFee)
+    const excessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
+    const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
+    const total = this.calculateTotalPriceWithFee(subtotal,includedFee)
 
-  private basicFee(planType:TPlanType): ProductItem {
-    const basicQty = this.isBasic(planType) ? 1 : 0
-    const basicAmount = basicQty * this.planFeeDic[planType]
-    return new ProductItem('application_basic_service_fee', basicQty, basicAmount)
-  } 
-
-  private getGovernmentFee() {
-    return new ProductItem('application_regulation_fee', 1, this.governmentFee)
+    return { planFee: this.planFee(planType), excessFee, subtotal, total, categoriesPriceDetail }
   }
 
   async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePrice> {
