@@ -160,7 +160,86 @@ describe('CalculationDomain', () => {
         //assert
         expect(result).toEqual(expected)
       })
-      it('有超項(01類 23 項，超 3 項', async () => {
+      it('無超項(16~20 類各 2 項)', async () => {
+        //arrange
+        const mock  = mockCategoryItems('16',2).
+        concat(mockCategoryItems('17',2)).
+        concat(mockCategoryItems('18',2)).
+        concat(mockCategoryItems('19',2)).
+        concat(mockCategoryItems('20',2))
+        const expected = {
+          planFee: 4600,
+          excessFee: 0,
+          subtotal: 23000,
+          total: 23000,
+          detail: [{ code: '16', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '17', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '18', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '19', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '20', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 }]
+        }
+        //act
+        const result = await target.handleAllPriceDetail('basic', mock, false)
+        //assert
+        expect(result).toEqual(expected)
+      })
+      it('無超項(21~25 類各 2 項)', async () => {
+        //arrange
+        const mock  = mockCategoryItems('21',2).
+        concat(mockCategoryItems('22',2)).
+        concat(mockCategoryItems('23',2)).
+        concat(mockCategoryItems('24',2)).
+        concat(mockCategoryItems('25',2))
+        const expected = {
+          planFee: 4600,
+          excessFee: 0,
+          subtotal: 23000,
+          total: 23000,
+          detail: [{ code: '21', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '22', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '23', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '24', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '25', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 }]
+        }
+        //act
+        const result = await target.handleAllPriceDetail('basic', mock, false)
+        //assert
+        expect(result).toEqual(expected)
+      })
+      it('無超項(26~34 類各 2 項)', async () => {
+        //arrange
+        const mock  = mockCategoryItems('26',2).
+          concat(mockCategoryItems('27',2)).
+          concat(mockCategoryItems('28',2)).
+          concat(mockCategoryItems('29',2)).
+          concat(mockCategoryItems('30',2)).
+          concat(mockCategoryItems('31',2)).
+          concat(mockCategoryItems('32',2)).
+          concat(mockCategoryItems('33',2)).
+          concat(mockCategoryItems('34',2))
+
+        const expected = {
+          planFee: 4600,
+          excessFee: 0,
+          subtotal: 41400,
+          total: 41400,
+          detail: [{ code: '26', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '27', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '28', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '29', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '30', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '31', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '32', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '33', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 },
+            {code: '34', codeQty: 2, excessQty: 0, excessFee: 200, planFee: 4600 }]
+        }
+        //act
+        const result = await target.handleAllPriceDetail('basic', mock, false)
+        //assert
+        expect(result).toEqual(expected)
+      })
+
+      it('有超項(01類 23 項，超 3 項', async () => {        
         //arrange
         const expected = {
           planFee: 4600,
