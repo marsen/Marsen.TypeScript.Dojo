@@ -113,7 +113,7 @@ export class CalculationService implements ICalculationService {
       const items = [
         this.getGovernmentFee(),
         this.basicFee(planType),
-        new ProductItem('application_advanced_service_fee', advancedQty, advancedAmount),
+        this.advancedFee(advancedQty, advancedAmount),
         new ProductItem('excess_item_fee', (this.isGoods(c.code) ? excessQty : 0), (this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0)),
         new ProductItem('special_excess_item_fee', (this.isSpecial(c.items) ? excessQty : 0), (this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0))
       ]
@@ -122,6 +122,10 @@ export class CalculationService implements ICalculationService {
 
 
   }
+  private advancedFee(advancedQty: number, advancedAmount: number) {
+    return new ProductItem('application_advanced_service_fee', advancedQty, advancedAmount)
+  }
+
   private basicFee(planType:TPlanType): ProductItem {
     const basicQty = this.isBasic(planType) ? 1 : 0
     const basicAmount = basicQty * this.planFeeDic[planType]
