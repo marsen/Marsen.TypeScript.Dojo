@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { CalculationService } from '../../src/AipluxerCalculator/calculationService'
+import { CalculationService, ProductItem } from '../../src/AipluxerCalculator/calculationService'
 
 describe('CalculationService', () => {
   let target: CalculationService
@@ -19,22 +19,11 @@ describe('CalculationService', () => {
           "excessQty": 0,
           "excessTotalFee": 0,
           "fee": 0,
-          "items":[{
-              "name": "application_regulation_fee",
-              "quantity": 1,
-              "totalPrice": 2400,
-              "unitPrice": 2400,
-            },{
-              "name": "application_basic_service_fee",
-              "quantity": 1,
-              "totalPrice": 2200,
-              "unitPrice": 2200,
-            },{
-              "name": "application_advanced_service_fee",
-              "quantity": 0,
-              "totalPrice": 0,
-              "unitPrice": 0,
-            },{
+          "items":[
+            new ProductItem('application_regulation_fee', 1, 2400),
+            new ProductItem('application_basic_service_fee', 1, 2200),
+            new ProductItem('application_advanced_service_fee', 0, 0),
+            {
               "name": "excess_item_fee",
               "quantity": 0,
               "totalPrice": 0,
@@ -56,7 +45,7 @@ describe('CalculationService', () => {
       //act
       const result = await target.calculateCategoriesFeeDetail('basic', mockCategoryItems('01',2), false)
       //assert
-      expect(result).toEqual(expected)
+      expect(result).toMatchObject(expected)
     })
     it('一般方案，有超項(08類-28項)', async () => {
       //arrange

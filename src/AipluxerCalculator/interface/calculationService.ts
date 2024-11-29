@@ -37,7 +37,7 @@ export interface totalPriceDetail {
     /** 項目細節 */
     items: Array<{
       /** 項目名稱 */
-      name: typeof PRODUCT_NAMES[number]
+      name: TProductName
       /** 數量 */
       quantity: number
       /** 單位金額 */

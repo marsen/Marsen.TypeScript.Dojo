@@ -2,7 +2,7 @@ import { type ICalculationService, PRODUCT_NAMES, type totalPriceDetail, TCatego
 import { GetCalculatePrice } from './interface/calculationDomain'
 
 
-class ProductItem{
+export class ProductItem{
   public readonly totalPrice: number
   constructor(
     public readonly name: TProductName, 
@@ -67,7 +67,7 @@ export class CalculationService implements ICalculationService {
     return planType === 'basic'
   }
 
-  private isSpecial(items: string[]) {
+  private isRetail(items: string[]) {
     return items.some(item => item.startsWith('3519'))
   }
 
@@ -76,8 +76,8 @@ export class CalculationService implements ICalculationService {
   }
 
   private retailExcessFee(c: TCategory, excessQty: number) {
-    const qty = this.isSpecial(c.items) ? excessQty : 0
-    const excessFee = this.isSpecial(c.items) && excessQty !== 0 ? this.specialServiceFee : 0
+    const qty = this.isRetail(c.items) ? excessQty : 0
+    const excessFee = this.isRetail(c.items) && excessQty !== 0 ? this.specialServiceFee : 0
     return new ProductItem('special_excess_item_fee', qty, excessFee)
   }
 
@@ -109,7 +109,7 @@ export class CalculationService implements ICalculationService {
       if (this.isGoods(c.code)) {
         excessQty = Math.max(c.items.length - 20, 0)
         excessFee = this.goodsFee
-      } else if (this.isSpecial(c.items)) {
+      } else if (this.isRetail(c.items)) {
         excessQty = Math.max((c.items.filter(i => i.startsWith('3519'))).length - 5, 0)
         excessFee = this.specialServiceFee
       }
