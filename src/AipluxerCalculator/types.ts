@@ -1,7 +1,7 @@
 const TYPES = {
 
   // domains
-  CalculationServiceDomain: Symbol.for('CalculationServiceDomain'),
+  CalculationDomain: Symbol.for('CalculationDomain'),
 
   // services
   CalculationService: Symbol.for('CalculationService'),

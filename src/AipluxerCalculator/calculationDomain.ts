@@ -1,6 +1,6 @@
 import { TYPES } from './types'
 import { inject, injectable } from 'inversify'
-import { type ICalculationServiceDomain as ICalculationDomain, type GetCalculatePrice } from './interface/calculationDomain'
+import { type ICalculationDomain as ICalculationDomain, type GetCalculatePrice } from './interface/calculationDomain'
 import { TCategory, TPlanType, type ICalculationService } from './interface/calculationService'
 
 @injectable()

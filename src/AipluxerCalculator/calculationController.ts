@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 import { inject, injectable } from 'inversify'
 import { z } from 'zod'
 import { TYPES } from './types'
-import { ICalculationServiceDomain } from './interface/calculationDomain'
+import { ICalculationDomain } from './interface/calculationDomain'
 import { PLAN_TYPES } from './interface/calculationService'
 
 
@@ -11,7 +11,7 @@ import { PLAN_TYPES } from './interface/calculationService'
 @injectable()
 export class CalculationController {
   constructor (
-    @inject(TYPES.CalculationServiceDomain) private readonly calculateServiceDomain: ICalculationServiceDomain
+    @inject(TYPES.CalculationDomain) private readonly calculateServiceDomain: ICalculationDomain
   ) {}
 
   getCalculateAllPriceDetail = async (req: Request, res: Response): Promise<void> => {

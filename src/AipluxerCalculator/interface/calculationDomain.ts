@@ -27,7 +27,7 @@ export interface GetCalculatePrice {
   /** 各類金額細節 */
   detail: CategoriesPriceSummary[]
 }
-export interface ICalculationServiceDomain {
+export interface ICalculationDomain {
   /**
  * 處理總金額細節 與 各類別費用細節 (輸出前端所需資料)
  *
