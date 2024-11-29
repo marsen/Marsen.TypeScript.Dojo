@@ -112,7 +112,7 @@ export class CalculationService implements ICalculationService {
       //console.log('specialAmount',specialAmount)
 
       const items = [
-        new ProductItem('application_regulation_fee', 1, this.governmentFee),
+        this.getGovernmentFee(),
         new ProductItem('application_basic_service_fee', basicQty, basicAmount),
         new ProductItem('application_advanced_service_fee', specialQty, specialAmount),
         new ProductItem('excess_item_fee', (this.isGoods(c.code) ? excessQty : 0), (this.isGoods(c.code) && excessQty !== 0 ? this.goodsFee : 0)),
@@ -120,6 +120,10 @@ export class CalculationService implements ICalculationService {
       ]
       return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
     })
+  }
+
+  private getGovernmentFee() {
+    return new ProductItem('application_regulation_fee', 1, this.governmentFee)
   }
 
   async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePrice> {
