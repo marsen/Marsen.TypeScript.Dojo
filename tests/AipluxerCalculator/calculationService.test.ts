@@ -49,32 +49,12 @@ describe('CalculationService', () => {
           "excessQty": 8,
           "excessTotalFee": 1600,
           "fee": 0,
-          "items":[{
-              "name": "application_regulation_fee",
-              "quantity": 1,
-              "totalPrice": 2400,
-              "unitPrice": 2400,
-            },{
-              "name": "application_basic_service_fee",
-              "quantity": 1,
-              "totalPrice": 2200,
-              "unitPrice": 2200,
-            },{
-              "name": "application_advanced_service_fee",
-              "quantity": 0,
-              "totalPrice": 0,
-              "unitPrice": 0,
-            },{
-              "name": "excess_item_fee",
-              "quantity": 8,
-              "totalPrice": 1600,
-              "unitPrice": 200,
-            },{
-              "name": "special_excess_item_fee",
-              "quantity": 0,
-              "totalPrice": 0,
-              "unitPrice": 0,
-            }],            
+          "items":[
+            new ProductItem('application_regulation_fee', 1, 2400),
+            new ProductItem('application_basic_service_fee', 1, 2200),
+            new ProductItem('application_advanced_service_fee', 0, 0),
+            new ProductItem('excess_item_fee', 8, 200),
+            new ProductItem('special_excess_item_fee', 0, 0)],
           "subTotal": 6200,  
         }],
         "excessFee": 1600,
@@ -98,32 +78,13 @@ describe('CalculationService', () => {
           "excessQty": 0,
           "excessTotalFee": 0,
           "fee": 0,
-          "items":[{
-              "name": "application_regulation_fee",
-              "quantity": 1,
-              "totalPrice": 2400,
-              "unitPrice": 2400,
-            },{
-              "name": "application_basic_service_fee",
-              "quantity": 0,
-              "totalPrice": 0,
-              "unitPrice": 0,
-            },{
-              "name": "application_advanced_service_fee",
-              "quantity": 1,
-              "totalPrice": 7600,
-              "unitPrice": 7600,
-            },{
-              "name": "excess_item_fee",
-              "quantity": 0,
-              "totalPrice": 0,
-              "unitPrice": 0,
-            },{
-              "name": "special_excess_item_fee",
-              "quantity": 0,
-              "totalPrice": 0,
-              "unitPrice": 0,
-            }],            
+          "items":[
+            new ProductItem('application_regulation_fee', 1, 2400),
+            new ProductItem('application_basic_service_fee', 0, 0),
+            new ProductItem('application_advanced_service_fee', 1, 7600),
+            new ProductItem('excess_item_fee', 0, 0),
+            new ProductItem('special_excess_item_fee', 0, 0)
+            ],            
           "subTotal": 10000,  
         }],
         "excessFee": 0,
