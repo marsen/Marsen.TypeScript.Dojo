@@ -23,17 +23,9 @@ describe('CalculationService', () => {
             new ProductItem('application_regulation_fee', 1, 2400),
             new ProductItem('application_basic_service_fee', 1, 2200),
             new ProductItem('application_advanced_service_fee', 0, 0),
-            {
-              "name": "excess_item_fee",
-              "quantity": 0,
-              "totalPrice": 0,
-              "unitPrice": 0,
-            },{
-              "name": "special_excess_item_fee",
-              "quantity": 0,
-              "totalPrice": 0,
-              "unitPrice": 0,
-            }],            
+            new ProductItem('excess_item_fee', 0, 0),
+            new ProductItem('special_excess_item_fee', 0, 0)
+            ],            
           "subTotal": 4600,  
         }],
         "excessFee": 0,
