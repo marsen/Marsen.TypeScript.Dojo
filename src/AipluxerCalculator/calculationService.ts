@@ -75,7 +75,7 @@ export class CalculationService implements ICalculationService {
   private isGoods(code: string): boolean {
     return this.goodsCategories.includes(code)
   }
-  
+
   private isGoodsByItems(items: string[]) {
     const code = items[0].substring(0, 2)
     return this.goodsCategories.includes(code)
@@ -88,9 +88,9 @@ export class CalculationService implements ICalculationService {
     return new ProductItem('special_excess_item_fee', qty, excessFee)
   }
 
-  private goodExcessFee(c: string, excessQty: number,items: string[]) {
+  private goodExcessFee( excessQty: number,items: string[]) {
     const qty = this.isGoodsByItems(items) ? excessQty : 0
-    const excessFee = this.isGoods(c) && excessQty !== 0 ? this.goodsFee : 0
+    const excessFee = this.isGoodsByItems(items) && excessQty !== 0 ? this.goodsFee : 0
     return new ProductItem('excess_item_fee', qty, excessFee)
   }
 
@@ -131,7 +131,7 @@ export class CalculationService implements ICalculationService {
         this.getGovernmentFee(),
         this.basicFee(planType),
         this.advanced(planType),
-        this.goodExcessFee(c.code, excessQty,c.items),
+        this.goodExcessFee(excessQty,c.items),
         this.retailExcessFee(c.items)
       ]
       return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
