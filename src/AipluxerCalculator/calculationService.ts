@@ -37,6 +37,7 @@ export class CalculationService implements ICalculationService {
   * 超過20項 每項 200 元
   */
   private readonly goodsFee = 200 
+  private readonly goodsLimit = 20 
 
   /**
   * 35類的3519類別，超項所收取的服務費
@@ -123,9 +124,9 @@ export class CalculationService implements ICalculationService {
   private getExcessQty(items: string[]) {
     let excessQty = 0
     if (this.isGoodsByItems(items)) {
-      excessQty = Math.max(items.length - 20, 0)
+      excessQty = Math.max(items.length - this.goodsLimit, 0)
     } else if (this.isRetail(items)) {
-      excessQty = Math.max((items.filter(i => i.startsWith('3519'))).length - 5, 0)
+      excessQty = Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
     }
     return excessQty
   }
