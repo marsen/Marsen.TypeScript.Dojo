@@ -75,6 +75,11 @@ export class CalculationService implements ICalculationService {
   private isGoods(code: string): boolean {
     return this.goodsCategories.includes(code)
   }
+  
+  private isGoodsByItems(items: string[]) {
+    const code = items[0].substring(0, 2)
+    return this.goodsCategories.includes(code)
+  }
 
   private retailExcessFee(items: string[]) {
     const excessQty = Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
@@ -88,10 +93,7 @@ export class CalculationService implements ICalculationService {
     const excessFee = this.isGoods(c) && excessQty !== 0 ? this.goodsFee : 0
     return new ProductItem('excess_item_fee', qty, excessFee)
   }
-  private isGoodsByItems(items: string[]) {
-    const code = items[0].substring(0, 2)
-    return this.goodsCategories.includes(code)
-  }
+
 
   private advanced(planType:TPlanType): ProductItem {
     const qty = !this.isBasic(planType) ? 1 : 0
