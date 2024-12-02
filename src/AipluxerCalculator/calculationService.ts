@@ -109,24 +109,35 @@ export class CalculationService implements ICalculationService {
   private getGovernmentFee() {
     return new ProductItem('application_regulation_fee', 1, this.governmentFee)
   }
+
+  private getExcessFee(items: string[]) {
+    let excessFee = 0
+    if (this.isGoodsByItems(items)) {
+      excessFee = this.goodsFee
+    } else if (this.isRetail(items)) {
+      excessFee = this.retailServiceFee
+    }
+    return excessFee
+  }
+
+  private getExcessQty(items: string[]) {
+    let excessQty = 0
+    if (this.isGoodsByItems(items)) {
+      excessQty = Math.max(items.length - 20, 0)
+    } else if (this.isRetail(items)) {
+      excessQty = Math.max((items.filter(i => i.startsWith('3519'))).length - 5, 0)
+    }
+    return excessQty
+  }
+
   private getCategoriesPriceDetail(categories: TCategory[],planType:TPlanType, includedFee: boolean) {
     return categories.map(c => {
-      let excessQty = 0
-      let excessFee = 0
-      let excessTotalFee = 0
-
-      if (this.isGoods(c.code)) {
-        excessQty = Math.max(c.items.length - 20, 0)
-        excessFee = this.goodsFee
-      } else if (this.isRetail(c.items)) {
-        excessQty = Math.max((c.items.filter(i => i.startsWith('3519'))).length - 5, 0)
-        excessFee = this.retailServiceFee
-      }
-        excessTotalFee = excessQty * excessFee
-
-      const includedExcessFee = excessTotalFee + this.planFee(planType)
-      const subTotal = this.getTotal(includedExcessFee, includedFee)
-      const fee = subTotal - includedExcessFee
+      let excessQty = this.getExcessQty(c.items)
+      let excessFee = this.getExcessFee(c.items)
+      let excessTotalFee = excessQty * excessFee
+      const subtotal = excessTotalFee + this.planFee(planType)
+      const total = this.getTotal(subtotal, includedFee)
+      const fee = total - subtotal
 
       const items = [
         this.getGovernmentFee(),
@@ -135,7 +146,7 @@ export class CalculationService implements ICalculationService {
         this.goodExcessFee(c.items),
         this.retailExcessFee(c.items)
       ]
-      return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
+      return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal: total, items, excessFee, excessQty }
     })
   }
 
