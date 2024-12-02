@@ -42,7 +42,8 @@ export class CalculationService implements ICalculationService {
   * 35類的3519類別，超項所收取的服務費
   * 超過5項 每項 500 元
   */
-  private readonly specialServiceFee = 500 
+  private readonly retailServiceFee = 500 
+  private readonly retailLimit = 5 
   /**
    *  手續費 (3% 手續費會等於30。 單位：千位)
    */
@@ -75,9 +76,10 @@ export class CalculationService implements ICalculationService {
     return this.goodsCategories.includes(code)
   }
 
-  private retailExcessFee(items: string[], excessQty: number) {
+  private retailExcessFee(items: string[]) {
+    const excessQty = Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
+    const excessFee = this.isRetail(items) && excessQty !== 0 ? this.retailServiceFee : 0
     const qty = this.isRetail(items) ? excessQty : 0
-    const excessFee = this.isRetail(items) && excessQty !== 0 ? this.specialServiceFee : 0
     return new ProductItem('special_excess_item_fee', qty, excessFee)
   }
 
@@ -111,7 +113,7 @@ export class CalculationService implements ICalculationService {
         excessFee = this.goodsFee
       } else if (this.isRetail(c.items)) {
         excessQty = Math.max((c.items.filter(i => i.startsWith('3519'))).length - 5, 0)
-        excessFee = this.specialServiceFee
+        excessFee = this.retailServiceFee
       }
         excessTotalFee = excessQty * excessFee
 
@@ -124,7 +126,7 @@ export class CalculationService implements ICalculationService {
         this.basicFee(planType),
         this.advanced(planType),
         this.goodExcessFee(c.code, excessQty),
-        this.retailExcessFee(c.items, excessQty)
+        this.retailExcessFee(c.items)
       ]
       return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
     })
