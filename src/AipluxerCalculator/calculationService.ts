@@ -75,9 +75,9 @@ export class CalculationService implements ICalculationService {
     return this.goodsCategories.includes(code)
   }
 
-  private retailExcessFee(c: TCategory, excessQty: number) {
-    const qty = this.isRetail(c.items) ? excessQty : 0
-    const excessFee = this.isRetail(c.items) && excessQty !== 0 ? this.specialServiceFee : 0
+  private retailExcessFee(items: string[], excessQty: number) {
+    const qty = this.isRetail(items) ? excessQty : 0
+    const excessFee = this.isRetail(items) && excessQty !== 0 ? this.specialServiceFee : 0
     return new ProductItem('special_excess_item_fee', qty, excessFee)
   }
 
@@ -124,7 +124,7 @@ export class CalculationService implements ICalculationService {
         this.basicFee(planType),
         this.advanced(planType),
         this.goodExcessFee(c, excessQty),
-        this.retailExcessFee(c, excessQty)
+        this.retailExcessFee(c.items, excessQty)
       ]
       return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal, items, excessFee, excessQty }
     })
