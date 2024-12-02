@@ -67,6 +67,38 @@ describe('CalculationService', () => {
       //assert
       expect(result).toEqual(expected)
     })
+
+    it('一般方案，有超項(35類-3519有 7 項, 3520有5項, 共 12 項)', async () => {
+      //arrange
+      const expected =  {
+        "categoriesPriceDetail": [{
+          "code": "35",
+          "codeQty": 12,
+          "excessFee": 500,
+          "excessQty": 2,
+          "excessTotalFee": 1000,
+          "fee": 0,
+          "items":[
+            new ProductItem('application_regulation_fee', 1, 2400),
+            new ProductItem('application_basic_service_fee', 1, 2200),
+            new ProductItem('application_advanced_service_fee', 0, 0),
+            new ProductItem('excess_item_fee', 0, 0),
+            new ProductItem('special_excess_item_fee', 2, 500)],
+          "subTotal": 5600,  
+        }],
+        "excessFee": 1000,
+        "planFee": 4600,
+        "subtotal": 5600,
+        "total": 5600,
+      }
+      const mock = mockCategoryItems('3519',7)
+      mock[0].items = mock[0].items.concat(mockCategoryItems('3520',5)[0].items)
+      console.log(mock)
+      //act
+      const result = await target.calculateCategoriesFeeDetail('basic', mock, false)
+      //assert
+      expect(result).toEqual(expected)
+    })
     
     it('進階方案，無超項(01類-2項)', async () => {
       //arrange
