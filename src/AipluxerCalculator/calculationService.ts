@@ -77,11 +77,14 @@ export class CalculationService implements ICalculationService {
     return this.goodsCategories.includes(items[0].substring(0, 2))
   }
 
+  private RetailCount(items: string[]) {
+    return Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
+  }
+
   private retailExcessFee(items: string[]) {
-    const excessQty = Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
+    const excessQty = this.RetailCount(items)
     const excessFee = this.isRetail(items) && excessQty !== 0 ? this.retailServiceFee : 0
-    const qty = this.isRetail(items) ? excessQty : 0
-    return new ProductItem('special_excess_item_fee', qty, excessFee)
+    return new ProductItem('special_excess_item_fee', excessQty, excessFee)
   }
 
   private goodExcessFee(items: string[]) {
