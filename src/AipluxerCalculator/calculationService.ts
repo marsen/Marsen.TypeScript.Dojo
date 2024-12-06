@@ -74,8 +74,7 @@ export class CalculationService implements ICalculationService {
   }
 
   private isGoods(items: string[]) {
-    const code = items[0].substring(0, 2)
-    return this.goodsCategories.includes(code)
+    return this.goodsCategories.includes(items[0].substring(0, 2))
   }
 
   private retailExcessFee(items: string[]) {
