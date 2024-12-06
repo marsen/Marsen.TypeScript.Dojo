@@ -127,23 +127,23 @@ export class CalculationService implements ICalculationService {
     return excessQty
   }
 
-  private getCategoriesPriceDetail(categories: TCategory[],planType:TPlanType, includedFee: boolean) {
-    return categories.map(c => {
-      let excessQty = this.getExcessQty(c.items)
-      let excessFee = this.getExcessFee(c.items)
+  private getCategoriesPriceDetail(categories: TCategory[], planType: TPlanType, includedFee: boolean) {
+    return categories.map(({ code, items }) => {
+      let excessQty = this.getExcessQty(items)
+      let excessFee = this.getExcessFee(items)
       let excessTotalFee = excessQty * excessFee
       const subtotal = excessTotalFee + this.planFee(planType)
       const total = this.getTotal(subtotal, includedFee)
       const fee = total - subtotal
 
-      const items = [
+      const feeItems = [
         this.getGovernmentFee(),
         this.basicFee(planType),
         this.advanced(planType),
-        this.goodExcessFee(c.items),
-        this.retailExcessFee(c.items)
+        this.goodExcessFee(items),
+        this.retailExcessFee(items)
       ]
-      return { code: c.code, codeQty: c.items.length, excessTotalFee, fee, subTotal: total, items, excessFee, excessQty }
+      return { code, codeQty: items.length, excessTotalFee, fee, subTotal: total, items: feeItems, excessFee, excessQty }
     })
   }
 
