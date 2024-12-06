@@ -127,7 +127,7 @@ export class CalculationService implements ICalculationService {
     return excessQty
   }
 
-  private getCategoriesPriceDetail(categories: TCategory[], planType: TPlanType, includedFee: boolean) {
+  private getFeeItemDetail(categories: TCategory[], planType: TPlanType, includedFee: boolean) {
     return categories.map(({ code, items }) => {
       let excessQty = this.getExcessQty(items)
       let excessFee = this.getExcessFee(items)
@@ -150,7 +150,7 @@ export class CalculationService implements ICalculationService {
   async calculateCategoriesFeeDetail (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<totalPriceDetail> {
     
     // 計算個類別明細
-    const categoriesPriceDetail = this.getCategoriesPriceDetail(categories, planType, includedFee)
+    const categoriesPriceDetail = this.getFeeItemDetail(categories, planType, includedFee)
     const excessFee = categoriesPriceDetail.reduce((acc, category) => acc + category.excessTotalFee, 0)
     const subtotal = categoriesPriceDetail.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
     const total = this.getTotal(subtotal,includedFee)
@@ -159,7 +159,7 @@ export class CalculationService implements ICalculationService {
   }
 
   async calculateCategoriesFeeDetail2 (planType: TPlanType, categories: TCategory[], includedFee: boolean): Promise<GetCalculatePrice> {
-    const details = this.getCategoriesPriceDetail(categories, planType, includedFee)
+    const details = this.getFeeItemDetail(categories, planType, includedFee)
     const excessFee = details.reduce((acc, category) => acc + category.excessTotalFee, 0)
     const subtotal = details.reduce((acc, category) => acc + this.planFee(planType) + category.excessTotalFee, 0)
     const total = this.getTotal(subtotal,includedFee)
