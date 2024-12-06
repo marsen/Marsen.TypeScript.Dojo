@@ -73,11 +73,7 @@ export class CalculationService implements ICalculationService {
     return items.some(item => item.startsWith('3519'))
   }
 
-  private isGoods(code: string): boolean {
-    return this.goodsCategories.includes(code)
-  }
-
-  private isGoodsByItems(items: string[]) {
+  private isGoods(items: string[]) {
     const code = items[0].substring(0, 2)
     return this.goodsCategories.includes(code)
   }
@@ -91,8 +87,8 @@ export class CalculationService implements ICalculationService {
 
   private goodExcessFee(items: string[]) {
     const excessQty = Math.max(items.length - 20, 0)
-    const qty = this.isGoodsByItems(items) ? excessQty : 0
-    const excessFee = this.isGoodsByItems(items) && excessQty !== 0 ? this.goodsFee : 0
+    const qty = this.isGoods(items) ? excessQty : 0
+    const excessFee = this.isGoods(items) && excessQty !== 0 ? this.goodsFee : 0
     return new ProductItem('excess_item_fee', qty, excessFee)
   }
 
@@ -113,7 +109,7 @@ export class CalculationService implements ICalculationService {
 
   private getExcessFee(items: string[]) {
     let excessFee = 0
-    if (this.isGoodsByItems(items)) {
+    if (this.isGoods(items)) {
       excessFee = this.goodsFee
     } else if (this.isRetail(items)) {
       excessFee = this.retailServiceFee
@@ -123,7 +119,7 @@ export class CalculationService implements ICalculationService {
 
   private getExcessQty(items: string[]) {
     let excessQty = 0
-    if (this.isGoodsByItems(items)) {
+    if (this.isGoods(items)) {
       excessQty = Math.max(items.length - this.goodsLimit, 0)
     } else if (this.isRetail(items)) {
       excessQty = Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
