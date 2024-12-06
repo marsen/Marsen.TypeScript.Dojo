@@ -117,18 +117,11 @@ export class CalculationService implements ICalculationService {
     return excessFee
   }
 
-  private getExcessQty(items: string[]) {
-    
-    if (this.isGoods(items)) {
-      return Math.max(items.length - this.goodsLimit, 0)
-    } else{ 
-      return Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
-    }
-  }
-
   private getFeeItemDetail(categories: TCategory[], planType: TPlanType, includedFee: boolean) {
     return categories.map(({ code, items }) => {
-      let excessQty = this.getExcessQty(items)
+      const excessQty = this.isGoods(items)?
+        Math.max(items.length-this.goodsLimit,0 ):
+        Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
       let excessFee = this.getExcessFee(items)
       let excessTotalFee = excessQty * excessFee
       const subtotal = excessTotalFee + this.planFee(planType)
