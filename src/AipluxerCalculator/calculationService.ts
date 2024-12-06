@@ -118,13 +118,12 @@ export class CalculationService implements ICalculationService {
   }
 
   private getExcessQty(items: string[]) {
-    let excessQty = 0
+    
     if (this.isGoods(items)) {
-      excessQty = Math.max(items.length - this.goodsLimit, 0)
+      return Math.max(items.length - this.goodsLimit, 0)
     } else{ 
-      excessQty = Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
+      return Math.max((items.filter(i => i.startsWith('3519'))).length - this.retailLimit, 0)
     }
-    return excessQty
   }
 
   private getFeeItemDetail(categories: TCategory[], planType: TPlanType, includedFee: boolean) {
