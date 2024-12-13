@@ -83,7 +83,7 @@ export class CalculationService implements ICalculationService {
 
   private retailExcessFee(items: string[]) {
     const excessQty = this.RetailCount(items)
-    const excessFee = this.isRetail(items) && excessQty !== 0 ? this.retailServiceFee : 0
+    const excessFee = this.RetailCount(items) > 0 ? this.retailServiceFee : 0
     return new ProductItem('special_excess_item_fee', excessQty, excessFee)
   }
 
